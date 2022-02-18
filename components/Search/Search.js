@@ -1,7 +1,7 @@
 import React from "react";
 import { Text, View, Alert } from "react-native";
 
-export function Search() {
+export default function Search() {
         return (
           <View
             style={{

@@ -1,3 +1,4 @@
+import { NavigationContainer} from '@react-navigation/native';
 import React from 'react';
 import {
   SafeAreaView,
@@ -12,6 +13,7 @@ import {
 import {
   Colors
 } from 'react-native/Libraries/NewAppScreen';
+import MyTabs from "./MyApp";
 
 const Section = ({children, title}) => {
   const isDarkMode = false;
@@ -61,7 +63,9 @@ const App = () => {
             <Section children="This is a text" title="Heading" />
           </View>
       </ScrollView>
+    
     </SafeAreaView>
+  
   );
 };
 

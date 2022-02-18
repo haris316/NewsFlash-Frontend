@@ -1,7 +1,7 @@
 import React from "react";
 import { Text, View, Alert } from "react-native";
 
-export function Home() {
+export default function Home() {
         return (
           <View
             style={{
@@ -10,7 +10,8 @@ export function Home() {
               justifyContent: "center",
             }}
           >
-            <Text>Home</Text>
+            <Text>Home ghjk</Text>
           </View>
         )
 }
+

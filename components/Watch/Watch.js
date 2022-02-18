@@ -1,7 +1,7 @@
 import React from "react";
 import { Text, View, Alert } from "react-native";
 
-export default function Explore() {
+export default function Watch() {
         return (
           <View
             style={{
@@ -10,7 +10,7 @@ export default function Explore() {
               justifyContent: "center",
             }}
           >
-            <Text>huda</Text>
+            <Text>Watchhhh</Text>
           </View>
         )
 }
