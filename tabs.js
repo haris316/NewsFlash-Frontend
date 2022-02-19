@@ -24,7 +24,7 @@ const MyTabs = () => {
             <Tab.Screen name="Watch" component={Watch}/>
             <Tab.Screen name="Explore" component={Explore}/>
             <Tab.Screen name="Notfications" component={Notifications}/>
-            <Tab.Screen name="Prdffofile" component={Profile}/>
+            <Tab.Screen name="Profile" component={Profile}/>
 
         </Tab.Navigator>
     )
