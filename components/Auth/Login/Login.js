@@ -1,7 +1,8 @@
 import React from 'react';
 import { View, Text, TextInput, Alert } from 'react-native';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+import { TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons'
+import axios from "axios"
 
 export default function Login() {
 
@@ -13,14 +14,7 @@ export default function Login() {
             callAlert();
         }
         else {
-            // LoginAPI();
-            Alert.alert(
-                'Good',
-                '',
-                [
-                    { text: 'Dismiss' },
-                ]
-            );
+            LoginAPI();
         }
     }
     function callAlert() {
@@ -33,41 +27,31 @@ export default function Login() {
         );
     }
     function LoginAPI() {
-        var url = 'http://localhost:7000/user/login';
-        let collection = {}
-        collection.email = email,
-            collection.password = password,
-            fetch(url,
-                {
-                    method: 'POST',
-                    headers: {
-                        'Access-Control-Allow-Origin': '*',
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(collection)
-                })
-                .then(resp => {
-                    return resp.json();
-                })
-                .then((responseJson) => {
-                    if (responseJson.success == "true") {
-                        signIn(responseJson.user.email)
-                    }
-                    else {
-                        Alert.alert(responseJson.message);
-                    }
-                })
-                .done()
+        axios.post('http://192.168.10.16:7000/api/users/login',
+            {
+                email : email,
+                password : password,
+            })
+            .then((res) => {
+                if (!res.data.success) {
+                    Alert.alert(res.data.message);
+                } else {
+                    console.log(res.data.token);
+                }
+            })
+            .catch((err) => {
+                console.log(err);
+            });
     }
     return (
         <>
             <View>
-                LOGO
+                <Text>LOGO</Text>
             </View>
             <View>
                 <Icon name={'ios-mail-outline'} size={28} />
                 <TextInput
-                    placeholder={'Email'}
+                    placeholder={'Enter Email'}
                     placeholderTextColor={'grey'}
                     underLineColorAndroid='transparent'
                     onChangeText={(text) => setEmail(text)}
@@ -76,15 +60,15 @@ export default function Login() {
             <View>
                 <Icon name={'ios-key-outline'} size={28} />
                 <TextInput
-                    placeholder={'Password'}
+                    placeholder={'Enter Password'}
                     placeholderTextColor={'grey'}
                     secureTextEntry={true}
                     underLineColorAndroid='transparent'
                     onChangeText={(text) => setPassword(text)}
                 />
             </View>
-            <TouchableOpacity onPress={() => { validate() }}>
-                <Text>Login</Text>
+            <TouchableOpacity onPress={() => { validate(); }}>
+                <Text>Login Button</Text>
             </TouchableOpacity>
         </>
     )
