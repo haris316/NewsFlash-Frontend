@@ -1,6 +1,6 @@
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
-import MyTabs from './Tabs';
+import MyTabs from './tabs';
 import MyAuthStack from './AuthStack';
 
 export default function App() {
