@@ -35,8 +35,8 @@ const MyTabs = () => {
                     <Image source={require('./assets/icon-images/homeFinal.png')}
                            resizeMode = 'contain'
                            style = {{
-                               width: 42,
-                               height: 42,
+                               width: 38,
+                               height: 38,
                                tintColor: focused ? '#045C5A' : '#000000'
                            }}  />
                     <Text style = {{color : focused ? '#045C5A' : '#000000', fontSize: 12, bottom: 2}}>Home</Text>
@@ -49,8 +49,8 @@ const MyTabs = () => {
                     <Image source={require('./assets/icon-images/watchFinal.png')}
                            resizeMode = 'contain'
                            style = {{
-                               width: 27,
-                               height: 27,
+                               width: 25,
+                               height: 25,
                                tintColor: focused ? '#045C5A' : '#000000'
                            }}  />
                     <Text style = {{color : focused ? '#045C5A' : '#000000', fontSize: 12, top:5}}>Watch</Text>
@@ -63,8 +63,8 @@ const MyTabs = () => {
                     <Image source={require('./assets/icon-images/explore2.png')}
                            resizeMode = 'contain'
                            style = {{
-                               width: 30,
-                               height: 30,
+                               width: 28,
+                               height: 28,
                                tintColor: focused ? '#045C5A' : '#000000'
                            }}  />
                     <Text style = {{color : focused ? '#045C5A' : '#000000', fontSize: 12, top:3}}>Explore</Text>
@@ -77,8 +77,8 @@ const MyTabs = () => {
                     <Image source={require('./assets/icon-images/notif.png')}
                            resizeMode = 'contain'
                            style = {{
-                               width: 32,
-                               height: 32,
+                               width: 30,
+                               height: 30,
                                tintColor: focused ? '#045C5A' : '#000000'
                            }}  />
                     <Text style = {{color : focused ? '#045C5A' : '#000000', fontSize: 12, top: 3}}>Notfications</Text>
@@ -91,8 +91,8 @@ const MyTabs = () => {
                     <Image source={require('./assets/icon-images/profileFinal.png')}
                            resizeMode = 'contain'
                            style = {{
-                               width: 40,
-                               height: 40,
+                               width: 38,
+                               height: 38,
                                tintColor: focused ? '#045C5A' : '#000000'
                            }}  />
                     <Text style = {{color : focused ? '#045C5A' : '#000000', fontSize: 12, bottom: 1}}>Profile</Text>

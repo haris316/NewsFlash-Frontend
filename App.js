@@ -6,8 +6,8 @@ import MyAuthStack from './AuthStack';
 export default function App() {
   return (
     <NavigationContainer>
-      {/* <MyTabs/> */}
-      <MyAuthStack />
+      <MyTabs/>
+      {/* <MyAuthStack /> */}
     </NavigationContainer>
   );
 }
