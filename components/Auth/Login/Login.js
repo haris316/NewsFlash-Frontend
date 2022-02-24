@@ -1,10 +1,10 @@
 import React from 'react';
 import { View, Text, TextInput, Alert } from 'react-native';
-import { TouchableOpacity } from 'react-native';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/Ionicons'
 import axios from "axios"
 
-export default function Login() {
+export default function Login({navigation}) {
 
     const [email, setEmail] = React.useState("");
     const [password, setPassword] = React.useState("");
@@ -29,8 +29,8 @@ export default function Login() {
     function LoginAPI() {
         axios.post('http://192.168.10.16:7000/api/users/login',
             {
-                email : email,
-                password : password,
+                email: email,
+                password: password,
             })
             .then((res) => {
                 if (!res.data.success) {
@@ -69,6 +69,9 @@ export default function Login() {
             </View>
             <TouchableOpacity onPress={() => { validate(); }}>
                 <Text>Login Button</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => { navigation.push("Register") }}>
+                <Text>Register instead</Text>
             </TouchableOpacity>
         </>
     )

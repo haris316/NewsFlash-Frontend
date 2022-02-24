@@ -1,10 +1,18 @@
 import React from "react";
+import { createStackNavigator } from "@react-navigation/stack";
 import Login from './components/Auth/Login/Login'
+import Register from './components/Auth/Register/Register'
 
-function AuthStack() {
+const AuthStack = createStackNavigator();
+
+function AuthStackScreen() {
+
     return (
-        <Login />
+    <AuthStack.Navigator>
+        <AuthStack.Screen name="Login" component={Login} />
+        <AuthStack.Screen name="Register" component={Register} />
+    </AuthStack.Navigator>
     )
 }
 
-export default AuthStack;
+export default AuthStackScreen;
