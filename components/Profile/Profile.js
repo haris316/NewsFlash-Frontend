@@ -30,33 +30,46 @@ export default function Profile() {
           <View style = {style.picwName}>
           <View style= {style.picLine}>
             <TouchableOpacity style= {style.numbers}>
-              <Text style = {{fontWeight: "500"}}>1.2k</Text>
-              <Text>FOLLOWERS</Text>
+              <Text style = {{fontWeight: "500", color: "black"}}>1.2k</Text>
+              <Text style = {{color: "black"}}>FOLLOWERS</Text>
             </TouchableOpacity>
             <View>
                 <Image style= {style.display} source = {require("..//../assets/images/storm.jpg")} />
             </View>
             <TouchableOpacity style= {style.numbers}>
-              <Text>900</Text>
-              <Text>NEWSPOSTS</Text>
+              <Text style = {{fontWeight: "500", color: "black"}}>900</Text>
+              <Text style = {{ color: "black"}}>NEWSPOSTS</Text>
             </TouchableOpacity>
 
           </View>
-          <Text>
+          <Text style = {{fontWeight: "500", color: "black", marginTop: 16, fontSize: 17}}>
             HARIS ZAFAR
           </Text>
           </View>
-          <View>
-            <TouchableOpacity>
-              <Text>
+          <View style = {style.profileButtons}>
+            <TouchableOpacity style = {style.pButton}>
+              <Text >
                 +FOLLOW
               </Text>
-            </TouchableOpacity>
-              <Text>
+            </TouchableOpacity >
+            <TouchableOpacity style = {style.pButton}>
+              <Text >
                 MESSAGE
               </Text>
+            </TouchableOpacity >
+          </View>
+          <View style = {style.profileTabs}>
             <TouchableOpacity>
-
+              <Text>POSTS</Text>
+            </TouchableOpacity>
+            <TouchableOpacity>
+              <Text>PINS</Text>
+            </TouchableOpacity>
+            <TouchableOpacity>
+              <Text>OPINIONS</Text>
+            </TouchableOpacity>
+            <TouchableOpacity>
+              <Text>NEWSTAND</Text>
             </TouchableOpacity>
           </View>
          
@@ -85,7 +98,8 @@ const style = StyleSheet.create({
   picwName:{
     width : width / 100 * 80,
     alignItems : "center",
-    alignSelf: "center"
+    alignSelf: "center",
+    margin: width / 100 * 5
     
   },
 
@@ -99,13 +113,40 @@ const style = StyleSheet.create({
     width: width/100*28,
     height: height/100*15, 
     borderRadius: width, 
-    margin: width/100*5
+    margin: width/100*5,
+  
   
   },
 
   numbers : {
     alignItems:"center",
     
+    
+  },
+
+  profileButtons : {
+    width: width/100*80,
+    alignSelf: "center",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    margin: width/ 100*6
+  },
+
+  pButton : {
+    borderWidth : 1,
+    borderRadius : 15,
+    paddingTop: width / 100 * 3,
+    paddingBottom: width / 100 * 3,
+    paddingLeft: width/ 100 * 10,
+    paddingRight: width/ 100 * 10,
+    
+  },
+
+  profileTabs : {
+    width : width,
+    flexDirection: "row",
+    justifyContent: "space-around",
+    alignSelf: "center"
   }
 
 
