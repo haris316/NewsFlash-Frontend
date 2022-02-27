@@ -86,7 +86,7 @@ const MyTabs = () => {
             )}}/>
             <Tab.Screen name="Profile" component={Profile} options = {{tabBarIcon: ({focused}) => (
                 
-                <View style = {{alignItems: "center",justifyContent: "center", top: 4}}>
+                <View style = {{alignItems: "center",justifyContent: "center", top: 3}}>
                   
                     <Image source={require('./assets/icon-images/profileFinal.png')}
                            resizeMode = 'contain'
