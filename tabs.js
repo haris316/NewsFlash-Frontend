@@ -18,7 +18,7 @@ const MyTabs = () => {
             tabBarShowLabel : false,
             tabBarStyle : {
                 position :'absolute',
-                height: 66,
+                height: 55,
                 bottom: 1,
                 backroundColor: '#fff',
                 justifyContent: "center",
@@ -35,8 +35,8 @@ const MyTabs = () => {
                     <Image source={require('./assets/icon-images/homeFinal.png')}
                            resizeMode = 'contain'
                            style = {{
-                               width: 38,
-                               height: 38,
+                               width: 35,
+                               height: 35,
                                tintColor: focused ? '#045C5A' : '#000000'
                            }}  />
                     <Text style = {{color : focused ? '#045C5A' : '#000000', fontSize: 12, bottom: 2}}>Home</Text>
@@ -49,8 +49,8 @@ const MyTabs = () => {
                     <Image source={require('./assets/icon-images/watchFinal.png')}
                            resizeMode = 'contain'
                            style = {{
-                               width: 25,
-                               height: 25,
+                               width: 22,
+                               height: 22,
                                tintColor: focused ? '#045C5A' : '#000000'
                            }}  />
                     <Text style = {{color : focused ? '#045C5A' : '#000000', fontSize: 12, top:5}}>Watch</Text>
@@ -63,8 +63,8 @@ const MyTabs = () => {
                     <Image source={require('./assets/icon-images/explore2.png')}
                            resizeMode = 'contain'
                            style = {{
-                               width: 28,
-                               height: 28,
+                               width: 25,
+                               height: 25,
                                tintColor: focused ? '#045C5A' : '#000000'
                            }}  />
                     <Text style = {{color : focused ? '#045C5A' : '#000000', fontSize: 12, top:3}}>Explore</Text>
@@ -77,8 +77,8 @@ const MyTabs = () => {
                     <Image source={require('./assets/icon-images/notif.png')}
                            resizeMode = 'contain'
                            style = {{
-                               width: 30,
-                               height: 30,
+                               width: 27,
+                               height: 27,
                                tintColor: focused ? '#045C5A' : '#000000'
                            }}  />
                     <Text style = {{color : focused ? '#045C5A' : '#000000', fontSize: 12, top: 3}}>Notfications</Text>
@@ -86,13 +86,13 @@ const MyTabs = () => {
             )}}/>
             <Tab.Screen name="Profile" component={Profile} options = {{tabBarIcon: ({focused}) => (
                 
-                <View style = {{alignItems: "center",justifyContent: "center", top: 3}}>
+                <View style = {{alignItems: "center",justifyContent: "center", top: 2}}>
                   
                     <Image source={require('./assets/icon-images/profileFinal.png')}
                            resizeMode = 'contain'
                            style = {{
-                               width: 38,
-                               height: 38,
+                               width: 35,
+                               height: 35,
                                tintColor: focused ? '#045C5A' : '#000000'
                            }}  />
                     <Text style = {{color : focused ? '#045C5A' : '#000000', fontSize: 12, bottom: 1}}>Profile</Text>
