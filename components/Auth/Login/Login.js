@@ -33,6 +33,7 @@ export default function Login({navigation}) {
                 password: password,
             })
             .then((res) => {
+                console.log(res)
                 if (!res.data.success) {
                     Alert.alert(res.data.message);
                 } else {
