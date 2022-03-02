@@ -1,16 +1,42 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import MyTabs from './tabs';
 import MyAuthStack from './AuthStack';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { ActivityIndicator, View } from 'react-native';
 
 export default function App() {
+  const[isLoading, setIsLoading] = React.useState(true);
+  const [userToken, setUserToken] = React.useState(null);
+
+  
+
+  useEffect(()=>{
+    setTimeout(() => {
+      setIsLoading(false)
+    }, 1000);
+  }, [])
+
+
+  if (isLoading){
+    return(
+      <View style = {{flex:1, justifyContent: 'center', alignItems: 'center'}}>
+        <ActivityIndicator size='large'/>
+      </View>
+    )
+  }
+
   return (
     <NavigationContainer>
-      <MyTabs/>
-      {/* <MyAuthStack /> */}
+      
+      {/* <MyTabs/>  */}
+      <MyAuthStack />
     </NavigationContainer>
   );
 }
+
+
+
 
 
 // import { NavigationContainer} from '@react-navigation/native';
