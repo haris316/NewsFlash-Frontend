@@ -11,7 +11,7 @@ import {
   Animated
 } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
-import { max } from "react-native-reanimated";
+
 import Ellipsis from 'react-native-vector-icons/Ionicons';
 import axios from "axios"
 import { NavigationContainer } from "@react-navigation/native";

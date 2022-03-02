@@ -7,7 +7,7 @@ import Explore from './components/Explore/Explore'
 import Notifications from './components/Notifications/Notifications'
 import Profile from './components/Profile/Profile'
 import { createStackNavigator } from "@react-navigation/stack";
-import { color } from "react-native-reanimated";
+
 import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
 import { Icon } from "react-native-vector-icons/SimpleLineIcons";
 

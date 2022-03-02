@@ -1,10 +1,18 @@
 import React from 'react';
-import { View, Text, TextInput, Alert } from 'react-native';
+import { View, Text, TextInput, Alert, Dimensions, ImageBackground, Image, StyleSheet } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/Ionicons'
-import axios from "axios"
+import axios from "axios";
+
+
+
+const { width, height } = Dimensions.get('window');
 
 export default function Login({navigation}) {
+
+    React.useLayoutEffect(() => {
+        navigation.setOptions({headerShown: false});
+      }, [navigation]);
 
     const [email, setEmail] = React.useState("");
     const [password, setPassword] = React.useState("");
@@ -46,7 +54,7 @@ export default function Login({navigation}) {
     }
     return (
         <>
-            <View>
+            {/* <View>
                 <Text>LOGO</Text>
             </View>
             <View>
@@ -73,7 +81,59 @@ export default function Login({navigation}) {
             </TouchableOpacity>
             <TouchableOpacity onPress={() => { navigation.push("Register") }}>
                 <Text>Register instead</Text>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
+
+                
+                <ImageBackground 
+                    source = {require('..//..//../assets/images/huda.png')} 
+                    style = {{width: width,height: height, justifyContent: "center"}}>
+                
+                <View>
+                    <TextInput style = {style.input}
+                        placeholder= {'Email'}
+                        placeholderTextColor= {'#045c5a'}
+                        underlineColorAndroid= 'transparent'
+                        />
+
+
+                </View>
+                <View>
+                    <TextInput style = {style.input}
+                        placeholder= {'Password'}
+                        placeholderTextColor= {'#045c5a'}
+                        underlineColorAndroid= 'transparent'
+                        />
+
+
+                </View>
+                </ImageBackground>
+                
+               
+               
+
+                
+
+                {/* <Image source = {require('..//..//../assets/images/signup.jpg')} resizeMode = "contain"/> */}
+         
+
+            
+
         </>
     )
 }
+
+const style = StyleSheet.create({
+    input : {
+        width: width - 55,
+        height: 40,
+        borderRadius: 25,
+        fontSize: 16,
+        paddingLeft: 20,
+        borderBottomWidth: 1,
+        marginTop: 10,
+        
+        alignSelf: "center",
+        
+
+    }
+})
