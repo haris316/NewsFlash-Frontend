@@ -13,7 +13,7 @@ export default function Register({navigation}) {
   const [lastname, setlastname] = React.useState("");
 
   function registerAPI() {
-    axios.post('http://192.168.10.16:7000/api/users/register',
+    axios.post(process.env.REACT_APP_BACKEND_URL+'api/users/register',
       {
         email: email,
         password: password,

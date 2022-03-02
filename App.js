@@ -2,6 +2,7 @@ import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import MyTabs from './tabs';
 import MyAuthStack from './AuthStack';
+require("dotenv").config();
 
 export default function App() {
   return (

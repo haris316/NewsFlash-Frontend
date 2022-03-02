@@ -35,7 +35,7 @@ export default function Login({navigation}) {
         );
     }
     function LoginAPI() {
-        axios.post('http://192.168.10.16:7000/api/users/login',
+        axios.post(process.env.REACT_APP_BACKEND_URL+'api/users/login',
             {
                 email: email,
                 password: password,
