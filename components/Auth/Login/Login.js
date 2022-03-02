@@ -35,7 +35,7 @@ export default function Login({navigation}) {
         );
     }
     function LoginAPI() {
-        axios.post(process.env.REACT_APP_BACKEND_URL+'api/users/login',
+        axios.post('https://nf-backend.herokuapp.com/api/users/login',
             {
                 email: email,
                 password: password,

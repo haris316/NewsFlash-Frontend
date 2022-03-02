@@ -13,7 +13,7 @@ export default function Register({navigation}) {
   const [lastname, setlastname] = React.useState("");
 
   function registerAPI() {
-    axios.post(process.env.REACT_APP_BACKEND_URL+'api/users/register',
+    axios.post('https://nf-backend.herokuapp.com/api/users/register',
       {
         email: email,
         password: password,

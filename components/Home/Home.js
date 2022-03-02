@@ -23,7 +23,7 @@ export default function Home({ navigation }) {
   const [allNews, setAllNews] = React.useState(null);
 
   React.useState(() => {
-    axios.post(process.env.REACT_APP_BACKEND_URL+'api/newsarticles/getall')
+    axios.post('https://nf-backend.herokuapp.com/api/newsarticles/getall')
       .then((res) => {
         console.log("res");
         if (res.data.error) {
