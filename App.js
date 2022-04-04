@@ -4,34 +4,94 @@ import MyTabs from './tabs';
 import MyAuthStack from './AuthStack';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { ActivityIndicator, View } from 'react-native';
+import { AuthContext } from './components/context';
 
 export default function App() {
-  const[isLoading, setIsLoading] = React.useState(true);
-  const [userToken, setUserToken] = React.useState(null);
+  // const[isLoading, setIsLoading] = React.useState(true);
+  // const [userToken, setUserToken] = React.useState(null);
 
-  
+  initialLoginState = {
+    isLoading: true,
+    userName: null,
+    userToken: null,
+  };
 
-  useEffect(()=>{
-    setTimeout(() => {
-      setIsLoading(false)
-    }, 1000);
-  }, [])
+  const loginReducer = (prevState, action) => {
+    switch(action.type) {
+      case 'RETRIEVE_TOKEN':
+        return {
+          ...prevState,
+          userToken : action.token,
+          isLoading : false
+        };
+      case 'LOGIN':
+        return {
+            ...prevState,
+            userName : action.id,
+            userToken : action.token,
+            isLoading : false,
+          };
+      case 'LOGOUT':
+        return {
+          ...prevState,
+          userName : null,
+          userToken : null,
+          isLoading : false
+        };
+      case 'REGISTER':
+        return {
+          ...prevState,
+          userToken : action.token,
+          isLoading : false
+        };
+    }
+  };
+
+  const [loginState, dispatch] = React.useReducer(loginReducer, initialLoginState);
+
+  const authContext = React.useMemo(() => ({
+    signIn: (token) => {
+      // setUserToken('jdjd');
+      // setIsLoading(false);
+      console.log("thisistokr",token);
+      dispatch({type : 'LOGIN', token : token});
+    },
+    signOut: () => {
+      dispatch({type: 'LOGOUT' })
+    },
+    signUp : () => {
+      // setUserToken('jdjd');
+      // setIsLoading(false);
+    },
+  }), []);
+
+  // useEffect(()=>{
+  //   setTimeout(() => {
+     
+  //   }, 1000);
+  // }, [])
 
 
-  if (isLoading){
-    return(
-      <View style = {{flex:1, justifyContent: 'center', alignItems: 'center'}}>
-        <ActivityIndicator size='large'/>
-      </View>
-    )
-  }
+  // if (loginState.isLoading){
+  //   return(
+  //     <View style = {{flex:1, justifyContent: 'center', alignItems: 'center'}}>
+  //       <ActivityIndicator size='large'/>
+  //     </View>
+  //   )
+  // }
 
   return (
+    <AuthContext.Provider value = {authContext}>
     <NavigationContainer>
-      
-      {/* <MyTabs/>  */}
-      <MyAuthStack />
+      {loginState.userToken == null ? 
+      <MyAuthStack /> :
+          <MyTabs/> 
+          
+      }
+     
+     
     </NavigationContainer>
+    </AuthContext.Provider>
   );
 }
 

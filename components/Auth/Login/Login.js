@@ -8,7 +8,8 @@ import { Center } from 'native-base';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { setStatusBarNetworkActivityIndicatorVisible } from 'expo-status-bar';
 
-
+import { AuthContext } from '../../context';
+import { GestureHandlerRefContext } from '@react-navigation/stack';
 
 const { width, height } = Dimensions.get('window');
 
@@ -24,13 +25,16 @@ export default function Login({navigation}) {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [showPass, setShowPass] = useState(true);
-const [press,setPress] = useState(false);
+    const [press,setPress] = useState(false);
+
+    const {signIn} = React.useContext(AuthContext);
 
     function validate() {
         if ((email == "") || (password == "")) {
             callAlert();
         }
         else {
+            console.log("check",email)
             LoginAPI();
         }
     }
@@ -51,6 +55,7 @@ const [press,setPress] = useState(false);
           // saving error
         }
       }
+
     function LoginAPI() {
         axios.post('https://nf-backend.herokuapp.com/api/users/login',
             {
@@ -62,8 +67,9 @@ const [press,setPress] = useState(false);
                 if (!res.data.success) {
                     Alert.alert(res.data.message);
                 } else {
-                    console.log(res.data.token);
-                    setThisToken(res.data.token);
+                    // console.log(res.data.token);
+                    // setThisToken(res.data.token);
+                    signIn(res.data.token);
                      
                 }
             })
@@ -89,8 +95,10 @@ const [press,setPress] = useState(false);
                     <Icon name = {'ios-person-outline'} size = {23} color = {'#045c5a'} style= {style.inputIcon}/>
                     <TextInput style = {style.input}
                         placeholder= {'Email'}
+                        value = {email}
                         placeholderTextColor= {'#045c5a'}
                         underlineColorAndroid= 'transparent'
+                        onChangeText={setEmail}
                         />
 
 
@@ -99,9 +107,11 @@ const [press,setPress] = useState(false);
                 <Icon2 name = {'lock'} size = {25} color = {'#045c5a'} style= {style.inputIcon}/>
                     <TextInput style = {style.input}
                         placeholder= {'Password'}
+                        value = {password}
                         secureTextEntry = {showPass}
                         placeholderTextColor= {'#045c5a'}
                         underlineColorAndroid= 'transparent'
+                        onChangeText={setPassword}
                         />
 
                     <TouchableOpacity style = {style.btneye}
@@ -115,7 +125,7 @@ const [press,setPress] = useState(false);
                         Sign In
                 </Text>
                 
-                <TouchableOpacity style = {style.login}>
+                <TouchableOpacity style = {style.login} onPress = {() => {validate()}}>
                         <Icon2 name = {'rightcircle'} size = {55}  />
                     </TouchableOpacity>
                 </View>

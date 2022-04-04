@@ -11,10 +11,14 @@ import {
   ScrollView
  } from "react-native";
 import Ellipsis from 'react-native-vector-icons/Ionicons';
+import { AuthContext } from "../context";
 
 const {width, height} = Dimensions.get('window');
 
+
+
 export default function Profile() {
+  const {signOut} = React.useContext(AuthContext);
         return (
           <SafeAreaView style = {style.container}>
           <View style = {style.top}>
@@ -102,6 +106,10 @@ export default function Profile() {
                 28/11/18
               </Text>
               </View>
+             
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => signOut()}>
+              <Text>LOGOUT</Text>
             </TouchableOpacity>
           </ScrollView>
          
