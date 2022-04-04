@@ -8,7 +8,7 @@ import { AuthContext } from './components/context';
 
 export default function App() {
   // const[isLoading, setIsLoading] = React.useState(true);
-  // const [userToken, setUserToken] = React.useState(null);
+   const [existingToken, setToken] = React.useState(null);
 
   initialLoginState = {
     isLoading: true,
@@ -54,6 +54,7 @@ export default function App() {
       // setUserToken('jdjd');
       // setIsLoading(false);
       console.log("thisistokr",token);
+      setToken(token);
       dispatch({type : 'LOGIN', token : token});
     },
     signOut: () => {
@@ -65,20 +66,21 @@ export default function App() {
     },
   }), []);
 
-  // useEffect(()=>{
-  //   setTimeout(() => {
-     
-  //   }, 1000);
-  // }, [])
+  useEffect(()=>{
+    setTimeout(() => {
+      dispatch({type: 'RETRIEVE_TOKEN',token: existingToken})
+    }, 1000);
+   
+  }, [])
 
 
-  // if (loginState.isLoading){
-  //   return(
-  //     <View style = {{flex:1, justifyContent: 'center', alignItems: 'center'}}>
-  //       <ActivityIndicator size='large'/>
-  //     </View>
-  //   )
-  // }
+  if (loginState.isLoading){
+    return(
+      <View style = {{flex:1, justifyContent: 'center', alignItems: 'center'}}>
+        <ActivityIndicator size='large'/>
+      </View>
+    )
+  }
 
   return (
     <AuthContext.Provider value = {authContext}>
