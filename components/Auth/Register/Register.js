@@ -9,6 +9,10 @@ const { width, height } = Dimensions.get('window');
 
 export default function Register({navigation}) {
 
+  React.useLayoutEffect(() => {
+    navigation.setOptions({headerShown: false});
+  }, [navigation]);
+
   const [email, setemail] = React.useState("");
   const [password, setpassword] = React.useState("");
   const [password2, setpassword2] = React.useState("");
@@ -18,6 +22,11 @@ export default function Register({navigation}) {
   const [press,setPress] = React.useState(false);
 
   function registerAPI() {
+
+    React.useLayoutEffect(() => {
+      navigation.setOptions({headerShown: false});
+    }, [navigation]);
+    
     axios.post('https://nf-backend.herokuapp.com/api/users/register',
       {
         email: email,
@@ -218,6 +227,7 @@ height: height/100 * 8,
 borderRadius: 25,
 fontSize: 16,
 alignSelf: "center",
+color: 'white'
 
 
 },
@@ -264,7 +274,8 @@ width: width /100 *70,
 alignSelf: 'center',
 flexDirection: 'row',
 justifyContent: "space-around",
-alignItems: "center"
+alignItems: "center",
+marginBottom : height/100 * -2
 },
 
 login : {
@@ -285,7 +296,7 @@ dontHave :{
 flexDirection: 'row',
 width: width / 100 * 50,
 alignSelf: 'center',
-bottom: height /100 * -10,
+bottom: height /100 * -18,
 
 }
 
