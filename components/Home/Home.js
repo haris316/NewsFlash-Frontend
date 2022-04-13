@@ -30,6 +30,7 @@ export default function Home({ navigation }) {
           console.log(res.data.message);
         } else {
           setAllNews(res.data.data);
+          
         }
       })
       .catch((err) => {
@@ -39,13 +40,19 @@ export default function Home({ navigation }) {
 
   function listNews() {
     if (allNews && allNews.length > 0) {
+        
       return allNews.map((item) => {
         return <>
-          <TouchableOpacity style={style.hBannerContainer} onPress={() => { navigation.push("Article", { "article": item }) }}>
-            <Image style={style.homeBanner} source={(item.media[0]) ? item.media[0].url : require("..//../assets/images/storm.jpg")} />
-            <Text style={style.imageHeading}>{item.title}</Text>
+         
+          <TouchableOpacity style={style.news} onPress={() => { navigation.push("Article", { "article": item }) }}>
+            <Image style={style.newsImage} source={(item.media[0]) ? item.media[0].url : require("..//../assets/images/storm.jpg")} />
+            <View style={style.newsInfo}>
+              <Text style={style.newsTextHeading}>{item.title}</Text>
+              <Text style={style.time}>8 hours ago | US</Text>
+            </View>
+
           </TouchableOpacity>
-          <Text>{item.summary}</Text>
+          {/* <Text>{item.summary}</Text> */}
         </>
       })
     }
@@ -78,53 +85,12 @@ export default function Home({ navigation }) {
 
       </View>
       <ScrollView>
-        {/* <TouchableOpacity style={style.hBannerContainer}>
-          <Image style={style.homeBanner} source={require("..//../assets/images/storm.jpg")} />
-          <Text style={style.imageHeading}>
-            Many migrants heading for UK die after boat sinks
-          </Text>
-        </TouchableOpacity> */}
+      {/* <TouchableOpacity style={style.hBannerContainer} onPress={() => { navigation.push("Article", { "article": allNews[0] }) }}>
+            <Image style={style.homeBanner} source={(allNews[0].media[0]) ? allNews[0].media[0].url : require("..//../assets/images/storm.jpg")} />
+            <Text style={style.imageHeading}>{allNews[0].title}</Text>
+          </TouchableOpacity>  */}
         <View style={style.newsContainer}>
-          {/* <TouchableOpacity style={style.news}>
-            <Image style={style.newsImage} source={require("..//../assets/images/storm.jpg")} />
-            <View style={style.newsInfo}>
-              <Text style={style.newsTextHeading}>Many migrants heading for UK die after boat sinks</Text>
-              <Text style={style.time}>8 hours ago | US</Text>
-            </View>
-
-          </TouchableOpacity>
-          <TouchableOpacity style={style.news}>
-            <Image style={style.newsImage} source={require("..//../assets/images/storm.jpg")} />
-            <View style={style.newsInfo}>
-              <Text style={style.newsTextHeading}>Many migrants heading for UK die after boat sinks</Text>
-              <Text style={style.time}>8 hours ago | US</Text>
-            </View>
-
-          </TouchableOpacity>
-          <TouchableOpacity style={style.news}>
-            <Image style={style.newsImage} source={require("..//../assets/images/storm.jpg")} />
-            <View style={style.newsInfo}>
-              <Text style={style.newsTextHeading}>Many migrants heading for UK die after boat sinks</Text>
-              <Text style={style.time}>8 hours ago | US</Text>
-            </View>
-
-          </TouchableOpacity>
-          <TouchableOpacity style={style.news}>
-            <Image style={style.newsImage} source={require("..//../assets/images/storm.jpg")} />
-            <View style={style.newsInfo}>
-              <Text style={style.newsTextHeading}>Many migrants heading for UK die after boat sinks</Text>
-              <Text style={style.time}>8 hours ago | US</Text>
-            </View>
-
-          </TouchableOpacity>
-          <TouchableOpacity style={style.news}>
-            <Image style={style.newsImage} source={require("..//../assets/images/storm.jpg")} />
-            <View style={style.newsInfo}>
-              <Text style={style.newsTextHeading}>Many migrants heading for UK die after boat sinks</Text>
-              <Text style={style.time}>8 hours ago | US</Text>
-            </View>
-
-          </TouchableOpacity> */}
+          
           {listNews()}
         </View>
       </ScrollView>

@@ -55,6 +55,8 @@ export default function Login({navigation}) {
         }
       }
 
+
+
     function LoginAPI() {
         axios.post('https://nf-backend.herokuapp.com/api/users/login',
             {
@@ -66,8 +68,11 @@ export default function Login({navigation}) {
                     Alert.alert(res.data.message);
                 } else {
                     // console.log(res.data.token);
-                    // setThisToken(res.data.token);
+                    
                     signIn(res.data.token);
+                    setThisToken(res.data.token);
+                    
+                    
                      
                 }
             })

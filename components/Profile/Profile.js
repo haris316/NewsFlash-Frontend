@@ -1,3 +1,4 @@
+import axios from "axios";
 import React from "react";
 import { 
   Text, 
@@ -12,26 +13,51 @@ import {
  } from "react-native";
 import Ellipsis from 'react-native-vector-icons/Ionicons';
 import { AuthContext } from "../context";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const {width, height} = Dimensions.get('window');
 
 
 
 export default function Profile() {
-  const {signOut} = React.useContext(AuthContext);
-        return (
-          <SafeAreaView style = {style.container}>
-          <View style = {style.top}>
-           
-            <TouchableOpacity>
-              <Ellipsis name="ellipsis-vertical" size={30}/>
-            </TouchableOpacity>
-            <TouchableOpacity>
-              <Ellipsis name="ellipsis-vertical" size={30}/>
-            </TouchableOpacity>
-            
-          </View>
-          <View style = {style.picwName}>
+
+  const [profile, setProfile] = React.useState(null);
+  const [token, setToken] = React.useState(null);
+
+
+
+
+React.useState( async() => {
+  
+    const value = await AsyncStorage.getItem('token');
+    
+    axios.post('https://nf-backend.herokuapp.com/api/users/getprofile',{
+    token : value
+  })
+  .then((res) => {
+    console.log("res1");
+    
+    if (res.error){
+      console.log(res.data.message)
+    }
+    else {
+      console.log(res.data);
+      setProfile(res.data)
+      console.log("ur profile", profile)
+    }
+  })
+  .catch((e) =>{
+    console.log(e);
+  })
+
+},[])
+
+
+  function showProfile(){
+    if (profile){
+      console.log("this time ur profile", profile)
+      return <>
+        <View style = {style.picwName}>
           <View style= {style.picLine}>
             <TouchableOpacity style= {style.numbers}>
               <Text style = {{fontWeight: "500", color: "black"}}>1.2k</Text>
@@ -47,7 +73,7 @@ export default function Profile() {
 
           </View>
           <Text style = {{fontWeight: "500", color: "black", marginTop: 16, fontSize: 17}}>
-            HARIS ZAFAR
+            {profile.data.name.toUpperCase()}
           </Text>
           </View>
           <View style = {style.profileButtons}>
@@ -76,6 +102,28 @@ export default function Profile() {
               <Text>NEWSTAND</Text>
             </TouchableOpacity>
           </View>
+      </>
+    }
+  }
+
+  const {signOut} = React.useContext(AuthContext);
+        return (
+          <SafeAreaView style = {style.container}>
+          <View style = {style.top}>
+           
+            <TouchableOpacity>
+              <Ellipsis name="ellipsis-vertical" size={30}/>
+            </TouchableOpacity>
+            <TouchableOpacity>
+              <Ellipsis name="ellipsis-vertical" size={30}/>
+            </TouchableOpacity>
+            
+          </View>
+          
+            {showProfile()}
+
+
+
           <ScrollView>
             <TouchableOpacity style = {style.post}>
               <Image style = {style.postImage}source = {require("..//../assets/images/storm.jpg")}/>
@@ -114,7 +162,7 @@ export default function Profile() {
           </ScrollView>
          
           </SafeAreaView>
-
+       
         )}
 
 const style = StyleSheet.create({
