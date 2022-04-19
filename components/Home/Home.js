@@ -39,8 +39,8 @@ export default function Home({ navigation }) {
   }, [])
 
   function listNews() {
-    if (allNews && allNews.length > 0) {
-        
+    if (allNews && allNews.length > 1) {
+        allNews.shift();
       return allNews.map((item) => {
         return <>
          
@@ -57,6 +57,17 @@ export default function Home({ navigation }) {
       })
     }
     else return <Text>Loading...</Text>
+  }
+
+  function showFeatued(){
+    if (allNews && allNews.length > 0){
+      return <>
+         <TouchableOpacity style={style.hBannerContainer} onPress={() => { navigation.push("Article", { "article": allNews[0] }) }}>
+            <Image style={style.homeBanner} source={(allNews[0].media[0]) ? allNews[0].media[0].url : require("..//../assets/images/storm.jpg")} />
+            <Text style={style.imageHeading}>{allNews[0].title}</Text>
+          </TouchableOpacity>  
+          </>
+    }
   }
 
   return (
@@ -85,10 +96,8 @@ export default function Home({ navigation }) {
 
       </View>
       <ScrollView>
-      {/* <TouchableOpacity style={style.hBannerContainer} onPress={() => { navigation.push("Article", { "article": allNews[0] }) }}>
-            <Image style={style.homeBanner} source={(allNews[0].media[0]) ? allNews[0].media[0].url : require("..//../assets/images/storm.jpg")} />
-            <Text style={style.imageHeading}>{allNews[0].title}</Text>
-          </TouchableOpacity>  */}
+        {showFeatued()}
+     
         <View style={style.newsContainer}>
           
           {listNews()}

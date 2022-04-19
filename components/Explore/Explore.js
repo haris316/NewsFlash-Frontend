@@ -1,16 +1,13 @@
 import React from "react";
 import { Text, View, Alert } from "react-native";
+import Carousel from "./Carousel";
+import { dummyData } from "./tempData";
 
 export default function Explore() {
         return (
-          <View
-            style={{
-              flex: 1,
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            <Text>huda</Text>
+          <View>
+            <Carousel data = {dummyData}/>
+           
           </View>
         )
 }
