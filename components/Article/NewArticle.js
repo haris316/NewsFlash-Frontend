@@ -9,11 +9,11 @@ export default function Login({ navigation }) {
     const [title, setTitle] = useState("");
     const [body, setBody] = useState("");
     const [summary, setSummary] = useState("");
-    const [category, setCategory] = useState("");
-    const [media, setMedia] = useState("");
-    const [links, setLinks] = useState("");
-    const [hashtags, setHashtags] = useState("");
-    const [keywords, setKeywords] = useState("");
+    const [category, setCategory] = useState([]);
+    const [media, setMedia] = useState([]);
+    const [links, setLinks] = useState([]);
+    const [hashtags, setHashtags] = useState([]);
+    const [keywords, setKeywords] = useState([]);
 
     function validate() {
         if ((title == "") || (body == "") || (summary == "")) {
@@ -50,7 +50,7 @@ export default function Login({ navigation }) {
                 title: title,
                 body: body,
                 summary: summary,
-                category: category,
+                categories: category,
                 media: media,
                 links: links,
                 hashtags: hashtags,
@@ -63,7 +63,7 @@ export default function Login({ navigation }) {
                 if (!res.data.success) {
                     Alert.alert(res.data.message);
                 } else {
-                    console.log(res.data);
+                    callSuccessAlert();
                 }
             })
             .catch((err) => {
@@ -101,49 +101,49 @@ export default function Login({ navigation }) {
                     />
                 </View>
                 <View>
-                    <TextInput
+                    {/* <TextInput
                         placeholder={'category'}
                         value={category}
                         placeholderTextColor={'#045c5a'}
                         underlineColorAndroid='transparent'
                         onChangeText={setCategory}
-                    />
+                    /> */}
                 </View>
                 <View>
-                    <TextInput
+                    {/* <TextInput
                         placeholder={'media'}
                         value={media}
                         placeholderTextColor={'#045c5a'}
                         underlineColorAndroid='transparent'
                         onChangeText={setMedia}
-                    />
+                    /> */}
                 </View>
                 <View>
-                    <TextInput
+                    {/* < FTextInput
                         placeholder={'links'}
                         value={links}
                         placeholderTextColor={'#045c5a'}
                         underlineColorAndroid='transparent'
                         onChangeText={setLinks}
-                    />
+                    /> */}
                 </View>
                 <View>
-                    <TextInput
+                    {/* <TextInput
                         placeholder={'hashtags'}
                         value={hashtags}
                         placeholderTextColor={'#045c5a'}
                         underlineColorAndroid='transparent'
                         onChangeText={setHashtags}
-                    />
+                    /> */}
                 </View>
                 <View>
-                    <TextInput
+                    {/* <TextInput
                         placeholder={'keywords'}
                         value={keywords}
                         placeholderTextColor={'#045c5a'}
                         underlineColorAndroid='transparent'
                         onChangeText={setKeywords}
-                    />
+                    /> */}
                 </View>
                 <TouchableOpacity onPress={() => { validate() }}>
                     <Text>Post Article</Text>
