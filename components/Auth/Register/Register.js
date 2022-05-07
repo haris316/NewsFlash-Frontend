@@ -21,12 +21,14 @@ export default function Register({navigation}) {
   const [showPass, setShowPass] = React.useState(true);
   const [press,setPress] = React.useState(false);
 
+  React.useLayoutEffect(() => {
+    navigation.setOptions({headerShown: false});
+  }, [navigation]);
+  
+
   function registerAPI() {
 
-    React.useLayoutEffect(() => {
-      navigation.setOptions({headerShown: false});
-    }, [navigation]);
-    
+   
     axios.post('https://nf-backend.herokuapp.com/api/users/register',
       {
         email: email,

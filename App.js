@@ -1,10 +1,15 @@
+import 'react-native-gesture-handler' 
 import React, { useEffect } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
-import MyTabs from './tabs';
-import MyAuthStack from './AuthStack';
+import MyTabs from './Stacks/tabs';
+import MyAuthStack from './Stacks/AuthStack';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { ActivityIndicator, View } from 'react-native';
 import { AuthContext } from './components/context';
+import { createDrawerNavigator } from '@react-navigation/drawer';
+import DrawerNavigator from './Stacks/DrawerNavigator';
+
+const Drawer = createDrawerNavigator();
 
 export default function App() {
   // const[isLoading, setIsLoading] = React.useState(true);
@@ -66,10 +71,14 @@ export default function App() {
     },
   }), []);
 
-  useEffect(()=>{
-    setTimeout(() => {
-      dispatch({type: 'RETRIEVE_TOKEN',token: existingToken})
-    }, 1000);
+  useEffect (()=> {
+    async function getuserToken(){
+      await setTimeout(() => {
+        dispatch({type: 'RETRIEVE_TOKEN',token: AsyncStorage.getItem('token')})
+      }, 1000);
+    }
+    getuserToken();
+    
    
   }, [])
 
@@ -87,9 +96,10 @@ export default function App() {
     <NavigationContainer>
       {loginState.userToken == null ? 
       <MyAuthStack /> :
-          <MyTabs/> 
+          <DrawerNavigator/> 
           
       }
+     
      
      
     </NavigationContainer>

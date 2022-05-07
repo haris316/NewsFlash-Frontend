@@ -15,6 +15,7 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import Ellipsis from 'react-native-vector-icons/Ionicons';
 import axios from "axios"
 import { NavigationContainer } from "@react-navigation/native";
+import { Center } from "native-base";
 
 
 const { width, height } = Dimensions.get('window');
@@ -40,7 +41,7 @@ export default function Home({ navigation }) {
 
   function listNews() {
     if (allNews && allNews.length > 1) {
-        allNews.shift();
+        // allNews.shift();
       return allNews.map((item) => {
         return <>
          
@@ -75,10 +76,13 @@ export default function Home({ navigation }) {
       <View style={style.top}>
 
         <TouchableOpacity>
-          <Ellipsis name="ellipsis-vertical" size={30} />
+        <Image source={require('../../assets/icon-images/hamburger.png')} style = {{width: width/100 * 5, height: height /100 * 2.5}}  />
+          
         </TouchableOpacity>
+
         <TouchableOpacity>
-          <Ellipsis name="ellipsis-vertical" size={30} />
+        <Ellipsis name="ellipsis-vertical" size={30} color="#045C5A" />
+          
         </TouchableOpacity>
 
       </View>
@@ -119,7 +123,10 @@ const style = StyleSheet.create({
   top: {
     flexDirection: "row",
     justifyContent: "space-between",
-    top: 10
+    top: 10,
+    width : width/100 *90,
+    alignSelf: "center",
+    alignItems: "center"
   },
 
   headingTab: {
