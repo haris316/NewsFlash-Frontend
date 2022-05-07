@@ -2,6 +2,8 @@ import React from 'react';
 import { ScrollView, View, TouchableOpacity, Text, TextInput, Alert, Dimensions, StyleSheet } from 'react-native';
 import { useState } from 'react';
 import axios from "axios";
+import MultipleSelectList from "../MultipleSelectList/MultipleSelectList"
+import DynamicInputFields from '../DynamicInputFields/DynamicInputFields';
 const { width, height } = Dimensions.get('window');
 
 export default function Login({ navigation }) {
@@ -100,15 +102,23 @@ export default function Login({ navigation }) {
                         onChangeText={setSummary}
                     />
                 </View>
-                <View>
-                    {/* <TextInput
-                        placeholder={'category'}
-                        value={category}
-                        placeholderTextColor={'#045c5a'}
-                        underlineColorAndroid='transparent'
-                        onChangeText={setCategory}
-                    /> */}
-                </View>
+                <MultipleSelectList
+                    data={[
+                        { id: 1, name: 'Category #1' },
+                        { id: 2, name: 'Category #2' },
+                        { id: 3, name: 'Category #3' },
+                        { id: 4, name: 'Category #4' },
+                        { id: 5, name: 'Category #5' },
+                        { id: 6, name: 'Category #6' },
+                        { id: 7, name: 'Category #7' },
+                        { id: 8, name: 'Category #8' },
+                        { id: 9, name: 'Category #9' },
+                        { id: 10, name: 'Category #10' },
+                    ]}
+                    element={category}
+                    setElement={(item) => { setCategory(item) }}
+                    name="Category"
+                />
                 <View>
                     {/* <TextInput
                         placeholder={'media'}
@@ -118,33 +128,21 @@ export default function Login({ navigation }) {
                         onChangeText={setMedia}
                     /> */}
                 </View>
-                <View>
-                    {/* < FTextInput
-                        placeholder={'links'}
-                        value={links}
-                        placeholderTextColor={'#045c5a'}
-                        underlineColorAndroid='transparent'
-                        onChangeText={setLinks}
-                    /> */}
-                </View>
-                <View>
-                    {/* <TextInput
-                        placeholder={'hashtags'}
-                        value={hashtags}
-                        placeholderTextColor={'#045c5a'}
-                        underlineColorAndroid='transparent'
-                        onChangeText={setHashtags}
-                    /> */}
-                </View>
-                <View>
-                    {/* <TextInput
-                        placeholder={'keywords'}
-                        value={keywords}
-                        placeholderTextColor={'#045c5a'}
-                        underlineColorAndroid='transparent'
-                        onChangeText={setKeywords}
-                    /> */}
-                </View>
+                <DynamicInputFields
+                    name="Link"
+                    element={links}
+                    setElement={(item) => { setLinks(item) }}
+                />
+                <DynamicInputFields
+                    name="Keyword"
+                    element={keywords}
+                    setElement={(item) => { setKeywords(item) }}
+                />
+                <DynamicInputFields
+                    name="Hashtag"
+                    element={hashtags}
+                    setElement={(item) => { setHashtags(item) }}
+                />
                 <TouchableOpacity onPress={() => { validate() }}>
                     <Text>Post Article</Text>
                 </TouchableOpacity>
