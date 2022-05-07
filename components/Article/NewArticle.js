@@ -47,30 +47,42 @@ export default function Login({ navigation }) {
     }
 
     function NewArticleAPI() {
-        axios.post('https://nf-backend.herokuapp.com/api/newsarticles/addarticle',
-            {
-                title: title,
-                body: body,
-                summary: summary,
-                categories: category,
-                media: media,
-                links: links,
-                hashtags: hashtags,
-                keywords: keywords,
-                author_email: "huda@gmail.com",
-                company_email: "test_company@gmail.com",
-            })
-            .then((res) => {
-                console.log(res)
-                if (!res.data.success) {
-                    Alert.alert(res.data.message);
-                } else {
-                    callSuccessAlert();
-                }
-            })
-            .catch((err) => {
-                console.log(err);
-            });
+        console.log({
+            title: title,
+            body: body,
+            summary: summary,
+            categories: category,
+            media: media,
+            links: links,
+            hashtags: hashtags,
+            keywords: keywords,
+            author_email: "huda@gmail.com",
+            company_email: "test_company@gmail.com",
+        })
+        // axios.post('https://nf-backend.herokuapp.com/api/newsarticles/addarticle',
+        //     {
+        //         title: title,
+        //         body: body,
+        //         summary: summary,
+        //         categories: category,
+        //         media: media,
+        //         links: links,
+        //         hashtags: hashtags,
+        //         keywords: keywords,
+        //         author_email: "huda@gmail.com",
+        //         company_email: "test_company@gmail.com",
+        //     })
+        //     .then((res) => {
+        //         console.log(res)
+        //         if (!res.data.success) {
+        //             Alert.alert(res.data.message);
+        //         } else {
+        //             callSuccessAlert();
+        //         }
+        //     })
+        //     .catch((err) => {
+        //         console.log(err);
+        //     });
     }
     return (
         <>
@@ -104,16 +116,16 @@ export default function Login({ navigation }) {
                 </View>
                 <MultipleSelectList
                     data={[
-                        { id: 1, name: 'Category #1' },
-                        { id: 2, name: 'Category #2' },
-                        { id: 3, name: 'Category #3' },
-                        { id: 4, name: 'Category #4' },
-                        { id: 5, name: 'Category #5' },
-                        { id: 6, name: 'Category #6' },
-                        { id: 7, name: 'Category #7' },
-                        { id: 8, name: 'Category #8' },
-                        { id: 9, name: 'Category #9' },
-                        { id: 10, name: 'Category #10' },
+                        { name: 'Category #1' },
+                        { name: 'Category #2' },
+                        { name: 'Category #3' },
+                        { name: 'Category #4' },
+                        { name: 'Category #5' },
+                        { name: 'Category #6' },
+                        { name: 'Category #7' },
+                        { name: 'Category #8' },
+                        { name: 'Category #9' },
+                        { name: 'Category #10' },
                     ]}
                     element={category}
                     setElement={(item) => { setCategory(item) }}

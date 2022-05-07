@@ -17,7 +17,7 @@ const MultipleSelectList = ({ data, element, setElement, name }) => {
                     searchIcon={false}
                     hideTags={false}
                     items={items}
-                    uniqueKey="id"
+                    uniqueKey="name"
                     onSelectedItemsChange={onSelectedItemsChange}
                     selectedItems={element}
                     selectText={`Choose ${name}`}
