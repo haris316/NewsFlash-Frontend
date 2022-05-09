@@ -4,6 +4,7 @@ import { useState } from 'react';
 import axios from "axios";
 import MultipleSelectList from "../MultipleSelectList/MultipleSelectList"
 import DynamicInputFields from '../DynamicInputFields/DynamicInputFields';
+import ImageUpload from '../ImageUpload/ImageUpload';
 const { width, height } = Dimensions.get('window');
 
 export default function Login({ navigation }) {
@@ -131,15 +132,6 @@ export default function Login({ navigation }) {
                     setElement={(item) => { setCategory(item) }}
                     name="Category"
                 />
-                <View>
-                    {/* <TextInput
-                        placeholder={'media'}
-                        value={media}
-                        placeholderTextColor={'#045c5a'}
-                        underlineColorAndroid='transparent'
-                        onChangeText={setMedia}
-                    /> */}
-                </View>
                 <DynamicInputFields
                     name="Link"
                     element={links}
@@ -155,6 +147,7 @@ export default function Login({ navigation }) {
                     element={hashtags}
                     setElement={(item) => { setHashtags(item) }}
                 />
+                <ImageUpload />
                 <TouchableOpacity onPress={() => { validate() }}>
                     <Text>Post Article</Text>
                 </TouchableOpacity>
