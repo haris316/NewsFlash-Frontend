@@ -5,7 +5,7 @@ import Article from '../components/Article/Article'
 import Watch from '../components/Watch/Watch'
 import Explore from '../components/Explore/Explore'
 import Notifications from '../components/Notifications/Notifications'
-import Profile from '../components/Profile/Profile'
+import Profile from '../components/Profile/ProfileUser'
 import { createStackNavigator } from "@react-navigation/stack";
 
 import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";

@@ -8,7 +8,7 @@ import { AuthContext } from './components/context';
 
 export default function App() {
   // const[isLoading, setIsLoading] = React.useState(true);
-   const [existingToken, setToken] = React.useState(null);
+  const [existingToken, setToken] = React.useState(null);
 
   initialLoginState = {
     isLoading: true,
@@ -17,32 +17,32 @@ export default function App() {
   };
 
   const loginReducer = (prevState, action) => {
-    switch(action.type) {
+    switch (action.type) {
       case 'RETRIEVE_TOKEN':
         return {
           ...prevState,
-          userToken : action.token,
-          isLoading : false
+          userToken: action.token,
+          isLoading: false
         };
       case 'LOGIN':
         return {
-            ...prevState,
-            userName : action.id,
-            userToken : action.token,
-            isLoading : false,
-          };
+          ...prevState,
+          userName: action.id,
+          userToken: action.token,
+          isLoading: false,
+        };
       case 'LOGOUT':
         return {
           ...prevState,
-          userName : null,
-          userToken : null,
-          isLoading : false
+          userName: null,
+          userToken: null,
+          isLoading: false
         };
       case 'REGISTER':
         return {
           ...prevState,
-          userToken : action.token,
-          isLoading : false
+          userToken: action.token,
+          isLoading: false
         };
     }
   };
@@ -53,46 +53,43 @@ export default function App() {
     signIn: (token) => {
       // setUserToken('jdjd');
       // setIsLoading(false);
-      
+
       setToken(token);
-      dispatch({type : 'LOGIN', token : token});
+      dispatch({ type: 'LOGIN', token: token });
     },
     signOut: () => {
-      dispatch({type: 'LOGOUT' })
+      dispatch({ type: 'LOGOUT' })
     },
-    signUp : () => {
+    signUp: () => {
       // setUserToken('jdjd');
       // setIsLoading(false);
     },
   }), []);
 
-  useEffect(()=>{
-    setTimeout(async() => {
-      await dispatch({type: 'RETRIEVE_TOKEN',token: AsyncStorage.getItem('token')})
+  useEffect(() => {
+    setTimeout(async () => {
+      await dispatch({ type: 'RETRIEVE_TOKEN', token: AsyncStorage.getItem('token') })
     }, 1000);
-   
+
   }, [])
 
 
-  if (loginState.isLoading){
-    return(
-      <View style = {{flex:1, justifyContent: 'center', alignItems: 'center'}}>
-        <ActivityIndicator size='large'/>
+  if (loginState.isLoading) {
+    return (
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        <ActivityIndicator size='large' />
       </View>
     )
   }
 
   return (
-    <AuthContext.Provider value = {authContext}>
-    <NavigationContainer>
-      {loginState.userToken == null ? 
-      <MyAuthStack /> :
-          <MyTabs/> 
-          
-      }
-     
-     
-    </NavigationContainer>
+    <AuthContext.Provider value={authContext}>
+      <NavigationContainer>
+        {loginState.userToken === null ?
+          <MyAuthStack /> :
+          <MyTabs />
+        }
+      </NavigationContainer>
     </AuthContext.Provider>
   );
 }

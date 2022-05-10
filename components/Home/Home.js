@@ -47,7 +47,7 @@ export default function Home({ navigation }) {
         return <>
 
           <TouchableOpacity style={style.news} onPress={() => { navigation.push("Article", { "article": item }) }}>
-            <Image style={{ width: width / 100 * 30, height: 100 }} source={(item.media[0] && item.media[0].type === "image") ? { uri: item.media[0].url } : require("..//../assets/images/storm.jpg")} />
+            <Image style={{ width: width / 100 * 30, height: 100, borderRadius:5 }} source={(item.media[0] && item.media[0].type === "image") ? { uri: item.media[0].url } : require("..//../assets/images/storm.jpg")} />
             <View style={style.newsInfo}>
               <Text style={style.newsTextHeading}>{item.title}</Text>
               <Text style={style.time}>8 hours ago | US</Text>
@@ -176,7 +176,7 @@ const style = StyleSheet.create({
   },
 
   news: {
-
+    marginBottom: 5,
     flexDirection: "row",
 
   },
