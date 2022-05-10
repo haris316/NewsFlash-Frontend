@@ -1,36 +1,52 @@
 import React, { useState, useEffect } from "react"
-import { Button, SafeAreaView, StyleSheet, Text, View } from 'react-native';
+import { Button, SafeAreaView, Image,StyleSheet, Text, View } from 'react-native';
 import { showImagePicker, launchCamera, launchImageLibrary } from 'react-native-image-picker';
 import RNFS from 'react-native-fs';
+// const m3o = require("m3o")("ZmYzMmRjZDQtNjgyOS00NjI3LThhODEtMTU2ZDdkMjg4NDZm");
 // import ImagePicker from 'react-native-image-picker';
 
 export default function ImageUpload() {
+
+
+    const [url, setUrl] = React.useState("Nothing here");
+
     function handleChoosePhoto() {
         const options = {
             noData: false
         };
         let path = null;
         launchImageLibrary(options, response => {
-            path = response.assets[0].uri;
-            // console.log(path);
-            RNFS.readFile(path, 'base64').then(res => {
-                console.log(res);
-            });
-            // console.log(response);
+            if (response.assets[0] && response.assets[0].uri !== undefined) {
+                path = response.assets[0].uri;
+                RNFS.readFile(path, 'base64').then(res => {
+                    console.log(res);
+                    setUrl(res);
+                });
+            }
         })
     }
-    // const m3o = require("m3o")("ZmYzMmRjZDQtNjgyOS00NjI3LThhODEtMTU2ZDdkMjg4NDZm");
-    // async function getUrlForImage() {
-    //     let res = await m3o.image.upload({
-    //         base64:"data:image/png;base64, iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAAx0lEQVR4nOzaMaoDMQyE4ZHj+x82vVdhwQoTkzKQEcwP5r0ihT7sbjUTeAJ4HCegXQJYfOYefOyjDuBiz3yjwJBoCIl6QZOeUjTC1Ix1IxEJXF9+0KWsf2bD4bn37OO/c/wuQ9QyRC1D1DJELUPUMkQtQ9QyRC1D1DJELUPUMkQtQ9QyRC1D1DJELUPUMkQtQ9Sa/NG94Tf3j4WBdaxudMEkn4IM2rZBA0wBrvo7aOcpj2emXvLeVt0IGm0GVXUj91mvAAAA//+V2CZl+4AKXwAAAABJRU5ErkJggg==",
-    //         name: "cat.jpeg",
-    //     });
-    //     console.log(res);
-    // }
+
+    async function getUrlForImage() {
+        axios.post('https://nf-backend.herokuapp.com/api/newsarticles/getImageURL', {
+            base64: url,
+        }).then((res) => {
+            console.log("res");
+            if (res.data.error) {
+                console.log(res.data.message);
+            } else {
+                setUrl(res.data.data);
+            }
+        })
+            .catch((err) => {
+                console.log(err);
+            });
+    }
 
     return (
         <SafeAreaView>
             <Button title="Choose Photo" onPress={() => { handleChoosePhoto() }} />
+            {/* <Button title="Test" onPress={() => { getUrlForImage() }} />
+            <Image style={{width: 200, height: 200}} source={{uri: "data:image/png;base64, iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4//8/w38GIAXDIBKE0DHxgljNBAAO9TXL0Y4OHwAAAABJRU5ErkJggg=="}} /> */}
         </SafeAreaView>
     );
 }

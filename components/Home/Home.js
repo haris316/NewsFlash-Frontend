@@ -29,8 +29,9 @@ export default function Home({ navigation }) {
         if (res.data.error) {
           console.log(res.data.message);
         } else {
+          console.log(res.data.data)
           setAllNews(res.data.data);
-          
+
         }
       })
       .catch((err) => {
@@ -40,33 +41,36 @@ export default function Home({ navigation }) {
 
   function listNews() {
     if (allNews && allNews.length > 1) {
-        allNews.shift();
+      allNews.shift();
       return allNews.map((item) => {
         return <>
-         
+
           <TouchableOpacity style={style.news} onPress={() => { navigation.push("Article", { "article": item }) }}>
-            <Image style={style.newsImage} source={(item.media[0]) ? item.media[0].url : require("..//../assets/images/storm.jpg")} />
+            <Image style={{ width: width / 100 * 30, height: 100 }} source={(item.media[0] && item.media[0].type === "image") ? { uri: item.media[0].url } : require("..//../assets/images/storm.jpg")} />
             <View style={style.newsInfo}>
               <Text style={style.newsTextHeading}>{item.title}</Text>
               <Text style={style.time}>8 hours ago | US</Text>
             </View>
 
           </TouchableOpacity>
-          {/* <Text>{item.summary}</Text> */}
         </>
       })
     }
     else return <Text>Loading...</Text>
   }
 
-  function showFeatued(){
-    if (allNews && allNews.length > 0){
+  function showFeatued() {
+    if (allNews && allNews.length > 0) {
+      console.log(allNews[0])
       return <>
-         <TouchableOpacity style={style.hBannerContainer} onPress={() => { navigation.push("Article", { "article": allNews[0] }) }}>
-            <Image style={style.homeBanner} source={(allNews[0].media[0]) ? allNews[0].media[0].url : require("..//../assets/images/storm.jpg")} />
-            <Text style={style.imageHeading}>{allNews[0].title}</Text>
-          </TouchableOpacity>  
-          </>
+        <TouchableOpacity style={style.hBannerContainer} onPress={() => { navigation.push("Article", { "article": allNews[0] }) }}>
+          <Image
+            style={{ height: 200, width: Dimensions.get('window').width, }}
+            source={(allNews[0].media[0] && allNews[0].media[0].type === "image") ? { uri: allNews[0].media[0].url } : require("..//../assets/images/storm.jpg")}
+          />
+          <Text style={style.imageHeading}>{allNews[0].title}</Text>
+        </TouchableOpacity>
+      </>
     }
   }
 
@@ -97,9 +101,9 @@ export default function Home({ navigation }) {
       </View>
       <ScrollView>
         {showFeatued()}
-     
+
         <View style={style.newsContainer}>
-          
+
           {listNews()}
         </View>
       </ScrollView>

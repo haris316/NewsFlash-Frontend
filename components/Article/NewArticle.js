@@ -89,7 +89,7 @@ export default function Login({ navigation }) {
         <>
             <ScrollView>
                 <View>
-                    <TextInput
+                    <TextInput style = {style.input}
                         placeholder={'Title'}
                         value={title}
                         placeholderTextColor={'#045c5a'}
@@ -97,9 +97,9 @@ export default function Login({ navigation }) {
                         onChangeText={setTitle}
                     />
                 </View>
-                <View>
-                    <TextInput
-                        placeholder={'body'}
+                <View style = {style.body}>
+                    <TextInput style = {style.input}
+                        placeholder={'Write your text here...'}
                         value={body}
                         placeholderTextColor={'#045c5a'}
                         underlineColorAndroid='transparent'
@@ -107,7 +107,7 @@ export default function Login({ navigation }) {
                     />
                 </View>
                 <View>
-                    <TextInput
+                    <TextInput style = {style.input}
                         placeholder={'summary'}
                         value={summary}
                         placeholderTextColor={'#045c5a'}
@@ -158,13 +158,13 @@ export default function Login({ navigation }) {
 
 const style = StyleSheet.create({
     input: {
-        width: width - 55,
+        width: width - 25,
         height: 40,
         borderRadius: 25,
         fontSize: 16,
-        paddingLeft: 55,
+        paddingLeft: 25,
         borderBottomWidth: 1,
-        marginTop: width / 100 * 40,
+        marginTop: width / 100 * 10,
 
         alignSelf: "center",
 
