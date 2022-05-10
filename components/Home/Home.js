@@ -15,6 +15,7 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import Ellipsis from 'react-native-vector-icons/Ionicons';
 import axios from "axios"
 import { NavigationContainer } from "@react-navigation/native";
+import NewArticleButton from "../Article/NewArticleButton";
 
 
 const { width, height } = Dimensions.get('window');
@@ -107,6 +108,7 @@ export default function Home({ navigation }) {
           {listNews()}
         </View>
       </ScrollView>
+      <NewArticleButton navigation={navigation} />
     </View>
   )
 }

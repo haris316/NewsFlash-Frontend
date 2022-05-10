@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
-import MyTabs from './tabs';
-import MyAuthStack from './AuthStack';
+import MyTabs from './Stacks/tabs';
+import MyAuthStack from './Stacks/AuthStack';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { ActivityIndicator, View } from 'react-native';
 import { AuthContext } from './components/context';
@@ -67,8 +67,8 @@ export default function App() {
   }), []);
 
   useEffect(()=>{
-    setTimeout(() => {
-      dispatch({type: 'RETRIEVE_TOKEN',token: existingToken})
+    setTimeout(async() => {
+      await dispatch({type: 'RETRIEVE_TOKEN',token: AsyncStorage.getItem('token')})
     }, 1000);
    
   }, [])

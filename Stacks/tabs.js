@@ -1,26 +1,19 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import React from "react";
-import Home from './components/Home/Home'
-import Article from './components/Article/Article'
-import Watch from './components/Watch/Watch'
-import Explore from './components/Explore/Explore'
-import Notifications from './components/Notifications/Notifications'
-import Profile from './components/Profile/Profile'
+import Home from '../components/Home/Home'
+import Article from '../components/Article/Article'
+import Watch from '../components/Watch/Watch'
+import Explore from '../components/Explore/Explore'
+import Notifications from '../components/Notifications/Notifications'
+import Profile from '../components/Profile/Profile'
 import { createStackNavigator } from "@react-navigation/stack";
 
 import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
 import { Icon } from "react-native-vector-icons/SimpleLineIcons";
+import {HomeStackScreen} from './ScreenStack'
 
 const Tab = createBottomTabNavigator();
-const HomeStack = createStackNavigator();
-function HomeStackScreen() {
-    return (
-        <HomeStack.Navigator >
-            <HomeStack.Screen options={{headerShown: false}} name="Home" component={Home} />
-            <HomeStack.Screen name="Article" component={Article} />
-        </HomeStack.Navigator>
-    )
-}
+
 const MyTabs = () => {
     return (
         <Tab.Navigator screenOptions={{
@@ -43,7 +36,7 @@ const MyTabs = () => {
 
                     <View style={{ alignItems: "center", justifyContent: "center", top: 4, left: 2 }}>
 
-                        <Image source={require('./assets/icon-images/homeFinal.png')}
+                        <Image source={require('../assets/icon-images/homeFinal.png')}
                             resizeMode='contain'
                             style={{
                                 width: 35,
@@ -59,7 +52,7 @@ const MyTabs = () => {
 
                     <View style={{ alignItems: "center", justifyContent: "center", top: 4 }}>
 
-                        <Image source={require('./assets/icon-images/watchFinal.png')}
+                        <Image source={require('../assets/icon-images/watchFinal.png')}
                             resizeMode='contain'
                             style={{
                                 width: 22,
@@ -75,7 +68,7 @@ const MyTabs = () => {
 
                     <View style={{ alignItems: "center", justifyContent: "center", top: 4 }}>
 
-                        <Image source={require('./assets/icon-images/explore2.png')}
+                        <Image source={require('../assets/icon-images/explore2.png')}
                             resizeMode='contain'
                             style={{
                                 width: 25,
@@ -91,7 +84,7 @@ const MyTabs = () => {
 
                     <View style={{ alignItems: "center", justifyContent: "center", top: 4 }}>
 
-                        <Image source={require('./assets/icon-images/notif.png')}
+                        <Image source={require('../assets/icon-images/notif.png')}
                             resizeMode='contain'
                             style={{
                                 width: 27,
@@ -107,7 +100,7 @@ const MyTabs = () => {
 
                     <View style={{ alignItems: "center", justifyContent: "center", top: 2 }}>
 
-                        <Image source={require('./assets/icon-images/profileFinal.png')}
+                        <Image source={require('../assets/icon-images/profileFinal.png')}
                             resizeMode='contain'
                             style={{
                                 width: 35,
