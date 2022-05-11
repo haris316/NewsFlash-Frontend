@@ -18,6 +18,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import NewArticleButton from "../Article/NewArticleButton";
 
 
+
 const { width, height } = Dimensions.get('window');
 
 export default function Home({ navigation }) {
@@ -77,17 +78,8 @@ export default function Home({ navigation }) {
 
   return (
     <View style={style.container}>
-      <View style={style.top}>
-
-        <TouchableOpacity>
-          <Ellipsis name="ellipsis-vertical" size={30} />
-        </TouchableOpacity>
-        <TouchableOpacity>
-          <Ellipsis name="ellipsis-vertical" size={30} />
-        </TouchableOpacity>
-
-      </View>
-      <View style={style.headingTab}>
+     
+      {/* <View style={style.headingTab}>
         <TouchableOpacity>
           <Text style={style.headingText}>
             Latest News
@@ -99,7 +91,7 @@ export default function Home({ navigation }) {
           </Text>
         </TouchableOpacity>
 
-      </View>
+      </View> */}
       <ScrollView>
         {showFeatued()}
 
@@ -144,6 +136,7 @@ const style = StyleSheet.create({
     alignSelf: "center",
     alignItems: "center",
     width: Dimensions.get('window').width,
+    marginTop : 10
 
 
   },
@@ -151,6 +144,7 @@ const style = StyleSheet.create({
   homeBanner: {
     height: 200,
     width: Dimensions.get('window').width,
+    
 
 
 
@@ -171,7 +165,8 @@ const style = StyleSheet.create({
   },
   newsContainer: {
     width: width / 100 * 94,
-    alignSelf: "center"
+    alignSelf: "center",
+    
 
   },
 

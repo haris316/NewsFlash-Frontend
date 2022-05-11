@@ -5,6 +5,8 @@ import MyAuthStack from './Stacks/AuthStack';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { ActivityIndicator, View } from 'react-native';
 import { AuthContext } from './components/context';
+import TopBarNavigator from './Tabs/HomeTabs';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 export default function App() {
   // const[isLoading, setIsLoading] = React.useState(true);
@@ -91,6 +93,9 @@ export default function App() {
         }
       </NavigationContainer>
     </AuthContext.Provider>
+    // <SafeAreaProvider>
+    //   <TopBarNavigator/>
+    // </SafeAreaProvider>
   );
 }
 

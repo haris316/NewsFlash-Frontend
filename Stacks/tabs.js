@@ -10,7 +10,8 @@ import { createStackNavigator } from "@react-navigation/stack";
 
 import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
 import { Icon } from "react-native-vector-icons/SimpleLineIcons";
-import {HomeStackScreen} from './ScreenStack'
+import {HomeStackScreen} from './ScreenStack';
+import TopBarNavigator from "../Tabs/HomeTabs";
 
 const Tab = createBottomTabNavigator();
 
