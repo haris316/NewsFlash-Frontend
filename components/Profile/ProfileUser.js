@@ -18,35 +18,107 @@ const { width, height } = Dimensions.get('window');
 
 
 
-export default function Profile() {
-
+export default function Profile({ email }) {
     const [profile, setProfile] = React.useState(null);
+    const [listdata, setListdata] = React.useState([1, 2, 3, 4, 5]);
+    const [list, setList] = React.useState((email !== undefined) ? ["OPINIONS", "NEWSTAND"] : ["OPINIONS", "PINS", "NEWSTAND"]);
+    const [view, setView] = React.useState(list[0]);
     const [picErr, setPicErr] = React.useState(false);
-    const [token, setToken] = React.useState(null);
+    const [error, setError] = React.useState(false);
 
     React.useState(async () => {
         setProfile(null);
-        const value = await AsyncStorage.getItem('token');
-        axios.post('https://nf-backend.herokuapp.com/api/users/getprofile', {
-            token: value
-        })
-            .then((res) => {
-                console.log("res1");
-
+        if (email) {
+            axios.post('https://nf-backend.herokuapp.com/api/users/getprofilebyemail', {
+                email: email
+            }).then((res) => {
                 if (res.error) {
                     console.log(res.data.message)
+                    setError(true)
                 }
                 else {
                     console.log(res.data.data);
                     setProfile(res.data.data)
                 }
-            })
-            .catch((e) => {
+            }).catch((e) => {
+                setError(true)
                 console.log(e);
             })
-
+        }
+        else {
+            const value = await AsyncStorage.getItem('token');
+            axios.post('https://nf-backend.herokuapp.com/api/users/getprofile', {
+                token: value
+            }).then((res) => {
+                if (res.error) {
+                    console.log(res.data.message)
+                    setError(true)
+                }
+                else {
+                    console.log(res.data.data);
+                    setProfile(res.data.data)
+                }
+            }).catch((e) => {
+                setError(true)
+                console.log(e);
+            })
+        }
     }, [])
 
+    React.useState(() => {
+        // setListdata(null);
+        if (profile && view) {
+            let value = null;
+            if (email) value = email
+            else value = profile.email;
+            let thing = view.toLocaleLowerCase;
+            axios.post(`https://nf-backend.herokuapp.com/api/users/get${thing}`, {
+                email: value
+            }).then((res) => {
+                if (res.error) {
+                    console.log(res.data.message)
+                    setError(true)
+                }
+                else {
+                    console.log(res.data.data);
+                    setListdata(res.data.data)
+                }
+            }).catch((e) => {
+                setError(true)
+                console.log(e);
+            })
+        }
+    }, [profile, view])
+
+
+    function getItems() {
+        if (listdata) return listdata.map(() => {
+            return <>
+                <TouchableOpacity style={style.post}>
+                    <Image style={style.postImage} source={require("..//../assets/images/storm.jpg")} />
+                    <View style={style.postText}>
+                        {(view === "PINS") ? <View style={{ flexDirection: "row", alignItems: "baseline", marginLeft: -6 }}>
+                            <Image source={require('..//..//assets/icon-images/pin.png')}
+                                resizeMode="contain" style={{ width: width / 100 * 5, height: height / 100 * 2.5 }}
+                            />
+                            <Text style={{ fontSize: 11.5, color: "#045C5A" }}>
+                                Pinned Post
+                            </Text>
+                        </View> : null}
+                        <Text style={{ fontSize: 12.5, color: "black", marginTop: -20 }}>
+                            Here's something i wrote a long time ago. Still relevant :)
+                        </Text>
+                        <Text style={{ alignSelf: "flex-end", fontSize: 10 }}>
+                            28/11/18
+                        </Text>
+                    </View>
+                </TouchableOpacity>
+            </>
+        })
+        else {
+            return <><Text>Loading...</Text></>
+        }
+    }
 
     function showProfile() {
         if (profile) {
@@ -81,68 +153,55 @@ export default function Profile() {
                         {profile.name.toUpperCase()}
                     </Text>
                 </View>
-                <View style={style.profileButtons}>
+                {(email !== undefined) ? <View style={style.profileButtons}>
                     <TouchableOpacity style={style.pButton}>
-                        <Text >
-                            +FOLLOW
+                        <Text>
+                            + FOLLOW
                         </Text>
                     </TouchableOpacity >
                     <TouchableOpacity style={style.pButton}>
-                        <Text >
-                            MESSAGE
+                        <Text>
+                            ABOUT USER
                         </Text>
                     </TouchableOpacity >
-                </View>
+                </View> : null}
                 <View style={style.profileTabs}>
-                    <TouchableOpacity>
-                        <Text>POST</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity>
-                        <Text>PINS</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity>
-                        <Text>OPINIONS</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity>
-                        <Text>NEWSTAND</Text>
-                    </TouchableOpacity>
+                    {list.map((item) => {
+                        return (<>
+                            <TouchableOpacity
+                                style={(view === item) ?
+                                    {
+                                        width: (width / 100) * (99.5 / list.length),
+                                        color: "#045C5A",
+                                        borderBottomWidth: 2,
+                                        borderBottomColor: "#045C5A",
+                                        alignItems: "center",
+                                        paddingBottom: 5,
+                                    } :
+                                    {
+                                        width: (width / 100) * (99.5 / list.length),
+                                        color: "#000",
+                                        alignItems: "center",
+                                        paddingBottom: 5,
+                                        paddingTop: 5,
+                                        backgroundColor: "#80808011"
+                                    }}
+                                onPress={() => { setView(item) }}>
+                                <Text>{item}</Text>
+                            </TouchableOpacity>
+                        </>)
+                    })}
                 </View>
                 <ScrollView>
-                    <TouchableOpacity style={style.post}>
-                        <Image style={style.postImage} source={require("..//../assets/images/storm.jpg")} />
-                        <View style={style.postText}>
-                            <View style={{ flexDirection: "row", alignItems: "baseline", marginLeft: -6 }}>
-                                <Image source={require('..//..//assets/icon-images/pin.png')}
-                                    resizeMode="contain" style={{ width: width / 100 * 5, height: height / 100 * 2.5 }}
-                                />
-                                <Text style={{ fontSize: 11.5, color: "#045C5A" }}>
-                                    Pinned Post
-                                </Text>
-                            </View>
-                            <Text style={{ fontSize: 12.5, color: "black", marginTop: -20 }}>
-                                Here's something i wrote a long time ago. Still relevant :)
-                            </Text>
-                            <Text style={{ alignSelf: "flex-end", fontSize: 10 }}>
-                                28/11/18
-                            </Text>
-                        </View>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={style.post}>
-                        <Image style={style.postImage} source={require("..//../assets/images/storm.jpg")} />
-                        <View style={style.postText}>
-                            <Text style={{ fontSize: 12.5, color: "black" }}>
-                                Here's something i wrote a long time ago. Still relevant :)
-                            </Text>
-                            <Text style={{ alignSelf: "flex-end", fontSize: 10 }}>
-                                28/11/18
-                            </Text>
-                        </View>
-
-                    </TouchableOpacity>
-                    <TouchableOpacity onPress={() => signOut()}>
-                        <Text>LOGOUT</Text>
-                    </TouchableOpacity>
+                    {getItems()}
                 </ScrollView>
+            </>
+        }
+        else if (error) {
+            return <>
+                <Text>An unexpected error has occurred.</Text>
+                <Text>Please check your internet connection.</Text>
+                <Button title="reload" />
             </>
         }
         else {
@@ -156,11 +215,8 @@ export default function Profile() {
     return (
         <SafeAreaView style={style.container}>
             <View style={style.top}>
-                <TouchableOpacity>
-                    <Ellipsis name="ellipsis-vertical" size={30} />
-                </TouchableOpacity>
-                <TouchableOpacity>
-                    <Ellipsis name="ellipsis-vertical" size={30} />
+                <TouchableOpacity style={style.LogoutButton} onPress={() => signOut()}>
+                    <Text>Logout</Text>
                 </TouchableOpacity>
             </View>
             {showProfile()}
@@ -175,17 +231,27 @@ const style = StyleSheet.create({
         flex: 1,
         backgroundColor: '#fff',
         fontFamily: 'Alegreya Sans',
-
-
-
+        paddingBottom: height / 100 * 10
     },
 
     top: {
         flexDirection: "row",
-        justifyContent: "space-between",
+        justifyContent: "flex-end",
+        paddingRight:width/100*2,
         top: 10
     },
-
+    LogoutButton:{
+        borderColor:'black',
+        borderRadius:5,
+        color:"black",
+        backgroundColor:"#80808022",
+        borderWidth : 1,
+        paddingTop:4,
+        paddingBottom:4,
+        paddingLeft:10,
+        paddingRight:10,
+        
+    },
     picwName: {
         width: width / 100 * 80,
         alignItems: "center",
@@ -228,9 +294,10 @@ const style = StyleSheet.create({
         borderRadius: 15,
         paddingTop: width / 100 * 3,
         paddingBottom: width / 100 * 3,
-        paddingLeft: width / 100 * 10,
-        paddingRight: width / 100 * 10,
-
+        width: width / 100 * 38,
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center"
     },
 
     profileTabs: {
@@ -240,7 +307,6 @@ const style = StyleSheet.create({
         alignSelf: "center",
         margin: width / 100 * 2
     },
-
     post: {
         width: width / 100 * 90,
         alignSelf: "center",
