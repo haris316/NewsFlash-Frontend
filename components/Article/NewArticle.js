@@ -13,10 +13,27 @@ export default function Login({ navigation }) {
     const [body, setBody] = useState("");
     const [summary, setSummary] = useState("");
     const [category, setCategory] = useState([]);
+    const [categoryData, setCategoryData] = useState([]);
     const [media, setMedia] = useState([]);
     const [links, setLinks] = useState([]);
     const [hashtags, setHashtags] = useState([]);
     const [keywords, setKeywords] = useState([]);
+
+
+    React.useState(() => {
+        axios.get('https://nf-backend.herokuapp.com/api/category/getall')
+            .then((res) => {
+                if (res.data.error) {
+                    console.log(res.data.message);
+                } else {
+                    console.log(res.data.data)
+                    setCategoryData(res.data.data);
+                }
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    }, [])
 
     function validate() {
         if ((title == "") || (body == "") || (summary == "")) {
@@ -58,38 +75,38 @@ export default function Login({ navigation }) {
             hashtags: hashtags,
             keywords: keywords,
             author_email: "huda@gmail.com",
-            company_email: "test_company@gmail.com",
+            company_email: "geo@gmail.com",
         })
-        // axios.post('https://nf-backend.herokuapp.com/api/newsarticles/addarticle',
-        //     {
-        //         title: title,
-        //         body: body,
-        //         summary: summary,
-        //         categories: category,
-        //         media: media,
-        //         links: links,
-        //         hashtags: hashtags,
-        //         keywords: keywords,
-        //         author_email: "huda@gmail.com",
-        //         company_email: "test_company@gmail.com",
-        //     })
-        //     .then((res) => {
-        //         console.log(res)
-        //         if (!res.data.success) {
-        //             Alert.alert(res.data.message);
-        //         } else {
-        //             callSuccessAlert();
-        //         }
-        //     })
-        //     .catch((err) => {
-        //         console.log(err);
-        //     });
+        axios.post('https://nf-backend.herokuapp.com/api/newsarticles/addarticle',
+            {
+                title: title,
+                body: body,
+                summary: summary,
+                categories: category,
+                media: media,
+                links: links,
+                hashtags: hashtags,
+                keywords: keywords,
+                author_email: "huda@gmail.com",
+                company_email: "geo@gmail.com",
+            })
+            .then((res) => {
+                console.log(res)
+                if (!res.data.success) {
+                    Alert.alert(res.data.message);
+                } else {
+                    callSuccessAlert();
+                }
+            })
+            .catch((err) => {
+                console.log(err);
+            });
     }
     return (
         <>
             <ScrollView>
                 <View>
-                    <TextInput style = {style.input}
+                    <TextInput style={style.input}
                         placeholder={'Title'}
                         value={title}
                         placeholderTextColor={'#045c5a'}
@@ -97,8 +114,8 @@ export default function Login({ navigation }) {
                         onChangeText={setTitle}
                     />
                 </View>
-                <View style = {style.body}>
-                    <TextInput style = {style.input}
+                <View style={style.body}>
+                    <TextInput style={style.input}
                         placeholder={'Write your text here...'}
                         value={body}
                         placeholderTextColor={'#045c5a'}
@@ -107,7 +124,7 @@ export default function Login({ navigation }) {
                     />
                 </View>
                 <View>
-                    <TextInput style = {style.input}
+                    <TextInput style={style.input}
                         placeholder={'summary'}
                         value={summary}
                         placeholderTextColor={'#045c5a'}
@@ -116,18 +133,7 @@ export default function Login({ navigation }) {
                     />
                 </View>
                 <MultipleSelectList
-                    data={[
-                        { name: 'Category #1' },
-                        { name: 'Category #2' },
-                        { name: 'Category #3' },
-                        { name: 'Category #4' },
-                        { name: 'Category #5' },
-                        { name: 'Category #6' },
-                        { name: 'Category #7' },
-                        { name: 'Category #8' },
-                        { name: 'Category #9' },
-                        { name: 'Category #10' },
-                    ]}
+                    data={categoryData}
                     element={category}
                     setElement={(item) => { setCategory(item) }}
                     name="Category"
@@ -147,10 +153,15 @@ export default function Login({ navigation }) {
                     element={hashtags}
                     setElement={(item) => { setHashtags(item) }}
                 />
-                <ImageUpload />
+                <ImageUpload setmedia={(item) => {
+                    setMedia([item])
+                    console.log("media updated")
+                }} />
                 <TouchableOpacity onPress={() => { validate() }}>
                     <Text>Post Article</Text>
                 </TouchableOpacity>
+                <View style={{ marginBottom: 100 }}>
+                </View>
             </ScrollView>
         </>
     )

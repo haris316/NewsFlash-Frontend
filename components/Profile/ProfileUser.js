@@ -55,7 +55,6 @@ export default function Profile({ email }) {
                     setError(true)
                 }
                 else {
-                    console.log(res.data.data);
                     setProfile(res.data.data)
                 }
             }).catch((e) => {

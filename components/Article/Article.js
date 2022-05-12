@@ -35,7 +35,7 @@ export default function Article(props, { navigation }) {
         <View style = {style.container}>
         <ScrollView showsVerticalScrollIndicator = {false} style={style.onearticle}>
             <TouchableOpacity style={style.articleBannerContainer} >
-                <Image style={style.articleBanner} source={(article.media[0] && article.media[0].type === "image") ? { uri: article.media[0].url } : require("..//../assets/images/storm.jpg")} />
+                <Image style={style.articleBanner} source={(article.media[0]) ? { uri: article.media[0] } : require("..//../assets/images/storm.jpg")} />
                 <Text style={style.articleHeading}>{article.title}</Text>
             </TouchableOpacity>
             <View style = {style.line}></View>

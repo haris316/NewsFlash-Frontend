@@ -48,7 +48,7 @@ export default function Home({ navigation }) {
         return <>
 
           <TouchableOpacity style={style.news} onPress={() => { navigation.push("Article", { "article": item }) }}>
-            <Image style={{ width: width / 100 * 30, height: 100, borderRadius:5 }} source={(item.media[0] && item.media[0].type === "image") ? { uri: item.media[0].url } : require("..//../assets/images/storm.jpg")} />
+            <Image style={{ width: width / 100 * 30, height: 100, borderRadius: 5 }} source={(item.media[0]) ? { uri: item.media[0] } : require("..//../assets/images/storm.jpg")} />
             <View style={style.newsInfo}>
               <Text style={style.newsTextHeading}>{item.title}</Text>
               <Text style={style.time}>8 hours ago | US</Text>
@@ -68,7 +68,7 @@ export default function Home({ navigation }) {
         <TouchableOpacity style={style.hBannerContainer} onPress={() => { navigation.push("Article", { "article": allNews[0] }) }}>
           <Image
             style={{ height: 200, width: Dimensions.get('window').width, }}
-            source={(allNews[0].media[0] && allNews[0].media[0].type === "image") ? { uri: allNews[0].media[0].url } : require("..//../assets/images/storm.jpg")}
+            source={(allNews[0].media[0]) ? { uri: allNews[0].media[0] } : require("..//../assets/images/storm.jpg")}
           />
           <Text style={style.imageHeading}>{allNews[0].title}</Text>
         </TouchableOpacity>
@@ -78,7 +78,7 @@ export default function Home({ navigation }) {
 
   return (
     <View style={style.container}>
-     
+
       {/* <View style={style.headingTab}>
         <TouchableOpacity>
           <Text style={style.headingText}>
@@ -136,7 +136,7 @@ const style = StyleSheet.create({
     alignSelf: "center",
     alignItems: "center",
     width: Dimensions.get('window').width,
-    marginTop : 10
+    marginTop: 10
 
 
   },
@@ -144,7 +144,7 @@ const style = StyleSheet.create({
   homeBanner: {
     height: 200,
     width: Dimensions.get('window').width,
-    
+
 
 
 
@@ -166,7 +166,7 @@ const style = StyleSheet.create({
   newsContainer: {
     width: width / 100 * 94,
     alignSelf: "center",
-    
+
 
   },
 
