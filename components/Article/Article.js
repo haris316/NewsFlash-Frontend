@@ -12,6 +12,7 @@ import {
 } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import axios from "axios"
+import Icon from 'react-native-vector-icons/EvilIcons'
 
 
 const { width, height } = Dimensions.get('window');
@@ -31,25 +32,45 @@ export default function Article(props, { navigation }) {
     }
 
     return (
-        <ScrollView style={style.onearticle}>
+        <View style = {style.container}>
+        <ScrollView showsVerticalScrollIndicator = {false} style={style.onearticle}>
             <TouchableOpacity style={style.articleBannerContainer} >
                 <Image style={style.articleBanner} source={(article.media[0] && article.media[0].type === "image") ? { uri: article.media[0].url } : require("..//../assets/images/storm.jpg")} />
                 <Text style={style.articleHeading}>{article.title}</Text>
             </TouchableOpacity>
+            <View style = {style.line}></View>
             <Text style={style.articleSubHeading}>{article.summary}</Text>
             <Text style={style.articleText}>{paragraphBody(article.body)}</Text>
+           
         </ScrollView>
+        <View style = {style.bottomStrip}>
+            <Image />
+            <Text>Name</Text>
+            <Text>Reporter</Text>
+            <Icon name = 'like' />
+            <Icon name = 'like' />
+            <Icon />
+        </View>
+        </View>
     )
 }
 
 const style = StyleSheet.create({
+    container : {
+        flex: 1,
+        backgroundColor : "#fff"
+    },
     onearticle:{
-        marginBottom:Dimensions.get('window').height*0.05
+        marginBottom:Dimensions.get('window').height*0.05,
+        width: Dimensions.get('window').width -40,
+        alignSelf : "center",
+        
+        
     },
     articleBannerContainer: {
         alignSelf: "center",
         alignItems: "center",
-        width: Dimensions.get('window').width,
+        width: Dimensions.get('window').width -40,
     },
     articleBanner: {
         height: 200,
@@ -62,6 +83,13 @@ const style = StyleSheet.create({
         margin: Dimensions.get('window').width / 100 * 3,
         color: "black"
     },
+    line : {
+        borderWidth: 1,  
+        width: Dimensions.get('window').width -30, 
+        alignSelf : "center",
+        borderColor : '#045c5a'
+    }
+    ,
     articleSubHeading:{
         alignSelf: "flex-start",
         fontFamily: "Alegreya Sans",
@@ -72,6 +100,7 @@ const style = StyleSheet.create({
         alignSelf: "flex-start",
         fontFamily: "Alegreya Sans",
         margin: Dimensions.get('window').width / 100 * 3,
+        textAlign: "justify"
     },
 })
 

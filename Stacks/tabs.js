@@ -96,7 +96,7 @@ const MyTabs = () => {
                     </View>
                 )
             }} />
-            <Tab.Screen name="Profile" children={()=><Profile />} component={Profile} options={{
+            <Tab.Screen name="Profile" children={()=><Profile />}  options={{
                 tabBarIcon: ({ focused }) => (
 
                     <View style={{ alignItems: "center", justifyContent: "center", top: 2 }}>
