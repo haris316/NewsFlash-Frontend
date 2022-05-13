@@ -164,7 +164,22 @@ export default function Profile({ email }) {
                             ABOUT USER
                         </Text>
                     </TouchableOpacity >
-                </View> : null}
+                </View> : 
+                <View style={style.profileButtons}>
+                <TouchableOpacity style={style.pButton}>
+                    <Text>
+                        EDIT PROFILE
+                    </Text>
+                </TouchableOpacity >
+                <TouchableOpacity style={style.pButton}>
+                    <Text>
+                        SETTINGS
+                    </Text>
+                </TouchableOpacity >
+            </View>
+
+
+                }
                 <View style={style.profileTabs}>
                     {list.map((item) => {
                         return (<>
