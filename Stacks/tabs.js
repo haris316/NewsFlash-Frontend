@@ -10,7 +10,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 
 import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
 import { Icon } from "react-native-vector-icons/SimpleLineIcons";
-import {HomeStackScreen} from './ScreenStack';
+import { HomeStackScreen } from './ScreenStack';
 import TopBarNavigator from "../Tabs/HomeTabs";
 
 const Tab = createBottomTabNavigator();
@@ -27,16 +27,11 @@ const MyTabs = () => {
                 backroundColor: '#fff',
                 justifyContent: "center",
                 alignItems: "center"
-
-
             }
         }} >
-
             <Tab.Screen name="HomeStackScreen" component={HomeStackScreen} options={{
                 tabBarIcon: ({ focused }) => (
-
                     <View style={{ alignItems: "center", justifyContent: "center", top: 4, left: 2 }}>
-
                         <Image source={require('../assets/icon-images/homeFinal.png')}
                             resizeMode='contain'
                             style={{
@@ -96,7 +91,7 @@ const MyTabs = () => {
                     </View>
                 )
             }} />
-            <Tab.Screen name="Profile" children={()=><Profile />}  options={{
+            <Tab.Screen name="Profile" children={() => <Profile />} options={{
                 tabBarIcon: ({ focused }) => (
 
                     <View style={{ alignItems: "center", justifyContent: "center", top: 2 }}>
