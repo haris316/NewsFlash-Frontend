@@ -10,6 +10,7 @@ import {
     Dimensions,
     ScrollView
 } from "react-native";
+import SmallPreloader from "../Preloaders/SmallPreloader"
 import Ellipsis from 'react-native-vector-icons/Ionicons';
 import { AuthContext } from "../context";
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -115,7 +116,7 @@ export default function Profile({ email }) {
             </>
         })
         else {
-            return <><Text>Loading...</Text></>
+            return <><SmallPreloader /></>
         }
     }
 
@@ -251,20 +252,20 @@ const style = StyleSheet.create({
     top: {
         flexDirection: "row",
         justifyContent: "flex-end",
-        paddingRight:width/100*2,
+        paddingRight: width / 100 * 2,
         top: 10
     },
-    LogoutButton:{
-        borderColor:'black',
-        borderRadius:5,
-        color:"black",
-        backgroundColor:"#80808022",
-        borderWidth : 1,
-        paddingTop:4,
-        paddingBottom:4,
-        paddingLeft:10,
-        paddingRight:10,
-        
+    LogoutButton: {
+        borderColor: 'black',
+        borderRadius: 5,
+        color: "black",
+        backgroundColor: "#80808022",
+        borderWidth: 1,
+        paddingTop: 4,
+        paddingBottom: 4,
+        paddingLeft: 10,
+        paddingRight: 10,
+
     },
     picwName: {
         width: width / 100 * 80,
