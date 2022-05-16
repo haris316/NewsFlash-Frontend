@@ -24,14 +24,13 @@ export default function Login({ navigation }) {
         axios.get('https://nf-backend.herokuapp.com/api/category/getall')
             .then((res) => {
                 if (res.data.error) {
-                    console.log(res.data.message);
+                    Alert.alert(res.data.message);
                 } else {
-                    console.log(res.data.data)
                     setCategoryData(res.data.data);
                 }
             })
             .catch((err) => {
-                console.log(err);
+                Alert.alert("ERROR!");
             });
     }, [])
 
@@ -40,7 +39,6 @@ export default function Login({ navigation }) {
             callAlert();
         }
         else {
-            console.log("we good");
             NewArticleAPI();
         }
     }
@@ -65,18 +63,18 @@ export default function Login({ navigation }) {
     }
 
     function NewArticleAPI() {
-        console.log({
-            title: title,
-            body: body,
-            summary: summary,
-            categories: category,
-            media: media,
-            links: links,
-            hashtags: hashtags,
-            keywords: keywords,
-            author_email: "huda@gmail.com",
-            company_email: "geo@gmail.com",
-        })
+        // console.log({
+        //     title: title,
+        //     body: body,
+        //     summary: summary,
+        //     categories: category,
+        //     media: media,
+        //     links: links,
+        //     hashtags: hashtags,
+        //     keywords: keywords,
+        //     author_email: "huda@gmail.com",
+        //     company_email: "geo@gmail.com",
+        // })
         axios.post('https://nf-backend.herokuapp.com/api/newsarticles/addarticle',
             {
                 title: title,
@@ -91,7 +89,6 @@ export default function Login({ navigation }) {
                 company_email: "geo@gmail.com",
             })
             .then((res) => {
-                console.log(res)
                 if (!res.data.success) {
                     Alert.alert(res.data.message);
                 } else {
@@ -99,7 +96,7 @@ export default function Login({ navigation }) {
                 }
             })
             .catch((err) => {
-                console.log(err);
+                Alert.alert("ERROR!");
             });
     }
     return (
@@ -155,7 +152,6 @@ export default function Login({ navigation }) {
                 />
                 <ImageUpload setmedia={(item) => {
                     setMedia([item])
-                    console.log("media updated")
                 }} />
                 <TouchableOpacity onPress={() => { validate() }}>
                     <Text>Post Article</Text>

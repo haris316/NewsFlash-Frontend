@@ -74,7 +74,6 @@ const Carousel = ({data}) => {
             </View>
         )
     } 
-    console.log('please provide images')
 
     return null;
 }

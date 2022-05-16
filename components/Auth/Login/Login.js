@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, TouchableOpacity, Text, TextInput, Alert, Dimensions, ImageBackground, Image, StyleSheet } from 'react-native';
+import { View, TouchableOpacity, Text, TextInput, Alert, Dimensions, ImageBackground,Alert, Image, StyleSheet } from 'react-native';
 import { useState } from 'react';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Icon2 from 'react-native-vector-icons/AntDesign'
@@ -76,7 +76,7 @@ export default function Login({ navigation }) {
                 }
             })
             .catch((err) => {
-                console.log(err);
+                Alert.alert("ERROR!");
             });
     }
     return (

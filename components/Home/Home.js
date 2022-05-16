@@ -4,12 +4,14 @@ import {
   View,
   Alert,
   StyleSheet,
+  Alert,
   Image,
   ScrollView,
   Dimensions,
   FlatList,
   Animated
 } from "react-native";
+import HomeSkeleton from "../Preloaders/Skeleton/HomeSkeleton"
 import { TouchableOpacity } from "react-native-gesture-handler";
 
 import Ellipsis from 'react-native-vector-icons/Ionicons';
@@ -27,17 +29,16 @@ export default function Home({ navigation }) {
   React.useState(() => {
     axios.post('https://nf-backend.herokuapp.com/api/newsarticles/getall')
       .then((res) => {
-        console.log("res");
         if (res.data.error) {
-          console.log(res.data.message);
+          Alert.alert(res.data.message);
         } else {
-          console.log(res.data.data)
+          Alert.alert("we good now remove");
           setAllNews(res.data.data);
 
         }
       })
       .catch((err) => {
-        console.log(err);
+        Alert.alert("ERROR!");
       });
   }, [])
 
@@ -58,12 +59,11 @@ export default function Home({ navigation }) {
         </>
       })
     }
-    else return <Text>Loading...</Text>
+    else return <><HomeSkeleton /></>
   }
 
   function showFeatued() {
     if (allNews && allNews.length > 0) {
-      console.log(allNews[0])
       return <>
         <TouchableOpacity style={style.hBannerContainer} onPress={() => { navigation.push("Article", { "article": allNews[0] }) }}>
           <Image

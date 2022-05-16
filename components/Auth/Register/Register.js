@@ -39,12 +39,11 @@ export default function Register({navigation}) {
         if (!res.data.success) {
           Alert.alert(res.data.message);
         } else {
-          console.log(res.data.data);
           navigation.push("Login")
         }
       })
       .catch((err) => {
-        console.log(err);
+        Alert.alert("ERROR!");
       });
   }
 

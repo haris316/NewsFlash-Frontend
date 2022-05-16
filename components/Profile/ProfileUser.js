@@ -34,16 +34,15 @@ export default function Profile({ email }) {
                 email: email
             }).then((res) => {
                 if (res.error) {
-                    console.log(res.data.message)
+                    Alert.alert(res.data.message)
                     setError(true)
                 }
                 else {
-                    console.log(res.data.data);
                     setProfile(res.data.data)
                 }
             }).catch((e) => {
                 setError(true)
-                console.log(e);
+                Alert.alert("ERROR!");
             })
         }
         else {
@@ -52,7 +51,7 @@ export default function Profile({ email }) {
                 token: value
             }).then((res) => {
                 if (res.error) {
-                    console.log(res.data.message)
+                    Alert.alert(res.data.message)
                     setError(true)
                 }
                 else {
@@ -60,7 +59,7 @@ export default function Profile({ email }) {
                 }
             }).catch((e) => {
                 setError(true)
-                console.log(e);
+                Alert.alert("ERROR!");
             })
         }
     }, [])
@@ -76,7 +75,7 @@ export default function Profile({ email }) {
                 email: value
             }).then((res) => {
                 if (res.error) {
-                    console.log(res.data.message)
+                    Alert.alert(res.data.message)
                     setError(true)
                 }
                 else {
@@ -85,7 +84,7 @@ export default function Profile({ email }) {
                 }
             }).catch((e) => {
                 setError(true)
-                console.log(e);
+                Alert.alert("ERROR!");
             })
         }
     }, [profile, view])
@@ -164,19 +163,19 @@ export default function Profile({ email }) {
                             ABOUT USER
                         </Text>
                     </TouchableOpacity >
-                </View> : 
-                <View style={style.profileButtons}>
-                <TouchableOpacity style={style.pButton}>
-                    <Text>
-                        EDIT PROFILE
-                    </Text>
-                </TouchableOpacity >
-                <TouchableOpacity style={style.pButton}>
-                    <Text>
-                        SETTINGS
-                    </Text>
-                </TouchableOpacity >
-            </View>
+                </View> :
+                    <View style={style.profileButtons}>
+                        <TouchableOpacity style={style.pButton}>
+                            <Text>
+                                EDIT PROFILE
+                            </Text>
+                        </TouchableOpacity >
+                        <TouchableOpacity style={style.pButton}>
+                            <Text>
+                                SETTINGS
+                            </Text>
+                        </TouchableOpacity >
+                    </View>
 
 
                 }
@@ -231,7 +230,7 @@ export default function Profile({ email }) {
         <SafeAreaView style={style.container}>
             <View style={style.top}>
                 <TouchableOpacity style={style.LogoutButton} onPress={() => signOut()}>
-                    <Text>Logout</Text>                     
+                    <Text>Logout</Text>
                 </TouchableOpacity>
             </View>
             {showProfile()}

@@ -35,19 +35,15 @@ export default function Profile() {
       token: value
     })
       .then((res) => {
-        console.log("res1");
-
         if (res.error) {
-          console.log(res.data.message)
+          Alert.alert(res.data.message)
         }
         else {
-          console.log(res.data);
           setProfile(res.data)
-          console.log("ur profile", profile)
         }
       })
       .catch((e) => {
-        console.log(e);
+        Alert.alert(e);
       })
 
   }, [])
@@ -55,7 +51,6 @@ export default function Profile() {
 
   function showProfile() {
     if (profile) {
-      console.log("this time ur profile", profile)
       return <>
         <View style={style.picwName}>
           <View style={style.picLine}>

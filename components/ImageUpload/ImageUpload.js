@@ -17,7 +17,6 @@ export default function ImageUpload({ setmedia }) {
             if (response.assets[0] && response.assets[0].uri !== undefined) {
                 path = response.assets[0].uri;
                 RNFS.readFile(path, 'base64').then(res => {
-                    console.log(res);
                     setUrl("data:image/png;base64," + res);
                     setmedia("data:image/png;base64," + res)
                 });
