@@ -230,7 +230,7 @@ export default function Profile({ email }) {
         <SafeAreaView style={style.container}>
             <View style={style.top}>
                 <TouchableOpacity style={style.LogoutButton} onPress={() => signOut()}>
-                    <Text>Logout</Text>
+                    <Text>Logout</Text>                     
                 </TouchableOpacity>
             </View>
             {showProfile()}
