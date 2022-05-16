@@ -4,7 +4,6 @@ import {
   View,
   Alert,
   StyleSheet,
-  Alert,
   Image,
   ScrollView,
   Dimensions,
@@ -32,9 +31,7 @@ export default function Home({ navigation }) {
         if (res.data.error) {
           Alert.alert(res.data.message);
         } else {
-          Alert.alert("we good now remove");
           setAllNews(res.data.data);
-
         }
       })
       .catch((err) => {
@@ -42,12 +39,19 @@ export default function Home({ navigation }) {
       });
   }, [])
 
+
+  function showLoading() {
+    return <>
+      <HomeSkeleton />
+    </>
+  }
+
+
   function listNews() {
     if (allNews && allNews.length > 1) {
       allNews.shift();
-      return allNews.map((item) => {
+      return allNews.map((item, key) => {
         return <>
-
           <TouchableOpacity style={style.news} onPress={() => { navigation.push("Article", { "article": item }) }}>
             <Image style={{ width: width / 100 * 30, height: 100, borderRadius: 5 }} source={(item.media[0]) ? { uri: item.media[0] } : require("..//../assets/images/storm.jpg")} />
             <View style={style.newsInfo}>
@@ -59,7 +63,6 @@ export default function Home({ navigation }) {
         </>
       })
     }
-    else return <><HomeSkeleton /></>
   }
 
   function showFeatued() {
@@ -76,42 +79,38 @@ export default function Home({ navigation }) {
     }
   }
 
-  return (
+  // if (false) return (
+  if (allNews && allNews.length > 0) return (
     <View style={style.container}>
-
-      {/* <View style={style.headingTab}>
-        <TouchableOpacity>
-          <Text style={style.headingText}>
-            Latest News
-          </Text>
-        </TouchableOpacity>
-        <TouchableOpacity>
-          <Text style={style.headingText}>
-            Top Stories
-          </Text>
-        </TouchableOpacity>
-
-      </View> */}
       <ScrollView>
         {showFeatued()}
-
         <View style={style.newsContainer}>
-
           {listNews()}
         </View>
       </ScrollView>
       <NewArticleButton navigation={navigation} />
     </View>
   )
+  else return (
+    <View style={style.loading_container}>
+      {showLoading()}
+    </View>
+  )
 }
 
 const style = StyleSheet.create({
+  loading_container: {
+    flex: 1,
+    backgroundColor: '#fff',
+    width: width,
+    height: height,
+  },
   container: {
     flex: 1,
     backgroundColor: '#fff',
     fontFamily: 'Alegreya Sans',
-
-
+    height: height,
+    paddingBottom: height / 100 * 10
   },
 
   top: {
@@ -119,87 +118,58 @@ const style = StyleSheet.create({
     justifyContent: "space-between",
     top: 10
   },
-
   headingTab: {
     flexDirection: "row",
     padding: 25,
     justifyContent: "space-around",
-
   },
-
   headingText: {
     fontSize: 19,
     color: "black"
   },
-
   hBannerContainer: {
     alignSelf: "center",
     alignItems: "center",
     width: Dimensions.get('window').width,
     marginTop: 10
-
-
   },
-
   homeBanner: {
     height: 200,
     width: Dimensions.get('window').width,
-
-
-
-
   },
-
-
   imageHeading: {
     alignSelf: "flex-start",
     fontFamily: "Alegreya Sans",
     fontSize: 19,
-
     margin: Dimensions.get('window').width / 100 * 3,
-
     color: "black"
-
-
-
   },
   newsContainer: {
     width: width / 100 * 94,
     alignSelf: "center",
-
-
   },
 
   news: {
     marginBottom: 5,
     flexDirection: "row",
-
   },
 
   newsImage: {
     width: width / 100 * 30,
     height: 100
   },
-
   newsInfo: {
     justifyContent: "space-between",
     margin: width / 100 * 2,
     width: width / 100 * 60,
-
-
   },
   newsTextHeading: {
     color: "black"
   },
-
   time: {
     fontSize: 12,
     marginBottom: -7,
     color: "black"
   }
-
-
-
-
 })
 
