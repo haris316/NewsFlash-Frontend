@@ -20,7 +20,14 @@ import AntDesign from 'react-native-vector-icons/AntDesign'
 const { width, height } = Dimensions.get('window');
 
 export default function Article(props, { navigation }) {
+    console.log(props.route.params.navigation)
     const [article] = React.useState(props.route.params.article);
+    const [profile] = React.useState(props.route.params.profile);
+    const [upVote, setUpVote] = React.useState(false);
+    const [downVote, setDownVote] = React.useState(false);
+    const [showMenu, setShowMenu] = React.useState(false);
+    const [pinned, setPinned] = React.useState((props.route.params.profile && props.route.params.profile.pins.indexOf(article) === -1) ? false : true);
+    const [loading, setLoading] = React.useState(false);
 
     function paragraphBody(item) {
         if (item && item.length > 0) {
@@ -32,62 +39,103 @@ export default function Article(props, { navigation }) {
         }
         else return <Text>No text in this article</Text>
     }
+    function callPin() {
+        if (loading) { Alert.alert("Please wait...") }
+        else {
+            if (!pinned) {
+                setLoading(true)
+                axios.post('https://nf-backend.herokuapp.com/api/users/addtopin', {
+                    article: article
+                }).then((res) => {
+                    setLoading(false);
+                    if (res.error) {
+                        Alert.alert(res.data.message)
+                    }
+                    else {
+                        Alert.alert("Article Pinned")
+                    }
+                }).catch((e) => {
+                    Alert.alert("ERROR!");
+                })
+            }
+            else {
+                setLoading(true)
+                axios.post('https://nf-backend.herokuapp.com/api/users/removepin', {
+                    article: article
+                }).then((res) => {
+                    setLoading(false);
+                    if (res.error) {
+                        Alert.alert(res.data.message)
+                    }
+                    else {
+                        Alert.alert("Article Removed from Pins")
+                    }
+                }).catch((e) => {
+                    Alert.alert("ERROR!");
+                })
+            }
+        }
+    }
 
     return (
-        <View style = {style.container}>
-        <ScrollView showsVerticalScrollIndicator = {false} style={style.onearticle}>
-            <TouchableOpacity style={style.articleBannerContainer} >
-                <Image style={style.articleBanner} source={(article.media[0]) ? { uri: article.media[0] } : require("..//../assets/images/storm.jpg")} />
-                <Text style={style.articleHeading}>{article.title}</Text>
-            </TouchableOpacity>
-            <View style = {style.line}></View>
-            <Text style={style.articleSubHeading}>{article.summary}</Text>
-            <Text style={style.articleText}>{paragraphBody(article.body)}</Text>
-           
-        </ScrollView>
-        <View style = {style.bottomContainer}>
-            <View style = {style.bottomContent}>
-                <TouchableOpacity style = {style.bottomLeftContent}>
-                    <Image source={require('../../assets/images/blacktemp.jpg')} style = {style.profilePic}/>
-                    <View style = {style.User}>
-                        <Text style = {{color: 'black',fontWeight : '500'}}>Name</Text>
-                        <Text>Reporter</Text>
-                    </View>
+        <View style={style.container}>
+            <ScrollView showsVerticalScrollIndicator={false} style={style.onearticle}>
+                <TouchableOpacity style={style.articleBannerContainer} >
+                    <Image style={style.articleBanner} source={(article.media[0]) ? { uri: article.media[0] } : require("..//../assets/images/storm.jpg")} />
+                    <Text style={style.articleHeading}>{article.title}</Text>
                 </TouchableOpacity>
-                <View style = {style.bottomRightContent}>
-                    <TouchableOpacity onPress={() => <AntDesign name = "like1" size={40}  />}>
-                        <Icon name = "like" size={40} color = "black"/>
+                <View style={style.line}></View>
+                <Text style={style.articleSubHeading}>{article.summary}</Text>
+                <Text style={style.articleText}>{paragraphBody(article.body)}</Text>
+
+            </ScrollView>
+            <View style={style.bottomContainer}>
+                <View style={style.bottomContent}>
+                    <TouchableOpacity style={style.bottomLeftContent}>
+                        <Image source={require('../../assets/images/blacktemp.jpg')} style={style.profilePic} />
+                        <View style={style.User}>
+                            <Text style={{ color: 'black', fontWeight: '500' }}>Name</Text>
+                            <Text>Reporter</Text>
+                        </View>
                     </TouchableOpacity>
-                    <TouchableOpacity>
-                        <Icon name = "like" size={40} style={{transform: [{rotate: '-180deg'}] , color : "black"} } />
-                    </TouchableOpacity>
-                    <TouchableOpacity>
-                        <ShareOps name="ellipsis-horizontal" size={35} style = {{marginLeft : 5}} color = "black"/>
-                    </TouchableOpacity>
+                    <View style={style.bottomRightContent}>
+                        <TouchableOpacity onPress={() => { setUpVote(!upVote) }}>
+                            {(upVote) ? <AntDesign name="like1" size={30} color="black" /> : <AntDesign name="like2" size={30} color="black" />}
+                        </TouchableOpacity>
+                        <TouchableOpacity onPress={() => { setDownVote(!downVote) }} style={{ marginLeft: 5, marginRight: 5, transform: [{ scaleX: -1 }, { translateY: 7.5 }], color: "black" }}>
+                            {(upVote) ? <AntDesign name="dislike1" size={30} color="black" /> : <AntDesign name="dislike2" size={30} color="black" />}
+                        </TouchableOpacity>
+                        <TouchableOpacity onPress={() => { setShowMenu(!showMenu) }}>
+                            <ShareOps name="ellipsis-horizontal" size={35} style={{ marginLeft: 5 }} color="black" />
+                        </TouchableOpacity>
+                        {(showMenu) ? <View style={style.menuBox}>
+                            <TouchableOpacity onPress={() => { props.route.params.navigation.push("Opinion", { "article": article, "profile": profile }) }}><Text>Share as Opinion</Text></TouchableOpacity>
+                            <TouchableOpacity onPress={() => { callPin() }}><Text>Pin Article</Text></TouchableOpacity>
+                        </View> : null}
+                    </View>
+
                 </View>
-                
             </View>
-        </View>
         </View>
     )
 }
 
 const style = StyleSheet.create({
-    container : {
+    container: {
         flex: 1,
-        backgroundColor : "#fff"
+        backgroundColor: "#fff"
     },
-    onearticle:{
+    onearticle: {
         // marginBottom:Dimensions.get('window').height*0.05,
-        width: Dimensions.get('window').width -40,
-        alignSelf : "center",
-        
-        
+        width: Dimensions.get('window').width - 40,
+        alignSelf: "center",
+
+
     },
     articleBannerContainer: {
         alignSelf: "center",
         alignItems: "center",
-        width: Dimensions.get('window').width -40,
+        width: Dimensions.get('window').width - 40,
     },
     articleBanner: {
         height: 200,
@@ -100,57 +148,68 @@ const style = StyleSheet.create({
         margin: Dimensions.get('window').width / 100 * 3,
         color: "black"
     },
-    line : {
-        borderWidth: 1,  
-        width: Dimensions.get('window').width -30, 
-        alignSelf : "center",
-        borderColor : '#045c5a'
+    line: {
+        borderWidth: 1,
+        width: Dimensions.get('window').width - 30,
+        alignSelf: "center",
+        borderColor: '#045c5a'
     }
     ,
-    articleSubHeading:{
+    articleSubHeading: {
         alignSelf: "flex-start",
         fontFamily: "Alegreya Sans",
         margin: Dimensions.get('window').width / 100 * 3,
         color: "black"
     },
-    articleText:{
+    articleText: {
         alignSelf: "flex-start",
         fontFamily: "Alegreya Sans",
         margin: Dimensions.get('window').width / 100 * 3,
         // marginBottom : 0,
         textAlign: "justify"
     },
-    bottomContainer : {
-        height : height /11,
-        position : "absolute",
-        bottom : 54,
-        backgroundColor : "#fff",
-        width : width,
+    bottomContainer: {
+        height: height / 11,
+        position: "absolute",
+        bottom: 54,
+        backgroundColor: "#fff",
+        width: width,
         justifyContent: "center"
         // borderWidth : 1
     },
-    bottomContent : {
-        flexDirection : "row",
+    bottomContent: {
+        flexDirection: "row",
         justifyContent: "space-between",
         margin: Dimensions.get('window').width / 100 * 8,
-        
-    },
-    bottomLeftContent : {
-        flexDirection: "row",
-        
-    },
-    bottomRightContent : {
-        flexDirection : "row",
-        justifyContent : "center"
 
     },
-    User : {
-        marginLeft : 10
+    bottomLeftContent: {
+        flexDirection: "row",
+
     },
-    profilePic : {
-        width : width / 10,
-        height : height / 20,
-        borderRadius : 50
+    bottomRightContent: {
+        flexDirection: "row",
+        justifyContent: "center"
+
+    },
+    User: {
+        marginLeft: 10
+    },
+    profilePic: {
+        width: width / 10,
+        height: height / 20,
+        borderRadius: 50
+    },
+    menuBox: {
+        position: "absolute",
+        backgroundColor: "#eee",
+        width: width / 100 * 50,
+        height: height / 100 * 20,
+        transform: [{ translateY: -(height / 100 * 20) }, { translateX: -(width / 100 * 10) }],
+        borderRadius: 7.5,
+        borderColor: "#000",
+        borderWidth: 1,
+        padding: 10,
     }
 })
 
