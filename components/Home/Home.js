@@ -78,7 +78,7 @@ export default function Home({ navigation }) {
             <Image style={{ width: width / 100 * 30, height: 100, borderRadius: 5 }} source={(item.media[0]) ? { uri: item.media[0] } : require("..//../assets/images/storm.jpg")} />
             <View style={style.newsInfo}>
               <Text style={style.newsTextHeading}>{item.title}</Text>
-              <Text style={style.time}>8 hours ago | US</Text>
+              <Text style={style.time}>{item.author.name} | {item.createdDate.slice(0, 10).split("-").reverse().join("/")}</Text>
             </View>
 
           </TouchableOpacity>
@@ -96,6 +96,7 @@ export default function Home({ navigation }) {
             source={(allNews[0].media[0]) ? { uri: allNews[0].media[0] } : require("..//../assets/images/storm.jpg")}
           />
           <Text style={style.imageHeading}>{allNews[0].title}</Text>
+          <Text style={style.Headtime}>{allNews[0].author.name} | {allNews[0].createdDate.slice(0, 10).split("-").reverse().join("/")}</Text>
         </TouchableOpacity>
       </>
     }
@@ -153,6 +154,7 @@ const style = StyleSheet.create({
     alignSelf: "center",
     alignItems: "center",
     width: Dimensions.get('window').width,
+    height: Dimensions.get('window').height / 100 * 45,
     marginTop: 10
   },
   homeBanner: {
@@ -163,7 +165,10 @@ const style = StyleSheet.create({
     alignSelf: "flex-start",
     fontFamily: "Alegreya Sans",
     fontSize: 19,
-    margin: Dimensions.get('window').width / 100 * 3,
+    marginLeft: Dimensions.get('window').width / 100 * 3,
+    marginRight: Dimensions.get('window').width / 100 * 3,
+    marginTop: Dimensions.get('window').width / 100 * 3,
+    marginBottom: Dimensions.get('window').width / 100 * 1,
     color: "black"
   },
   newsContainer: {
@@ -186,6 +191,14 @@ const style = StyleSheet.create({
     width: width / 100 * 60,
   },
   newsTextHeading: {
+    color: "black"
+  },
+  Headtime: {
+    width:Dimensions.get('window').width,
+    marginLeft:Dimensions.get('window').width/100*7,
+    textAlign:"left",
+    fontSize: 12,
+    marginBottom: -7,
     color: "black"
   },
   time: {

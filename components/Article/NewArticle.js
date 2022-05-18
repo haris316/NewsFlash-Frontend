@@ -77,6 +77,7 @@ export default function Login({ navigation }) {
         //     company_email: "geo@gmail.com",
         // })
         axios.post('https://nf-backend.herokuapp.com/api/newsarticles/addarticle',
+            // axios.get('http://192.168.10.2:7000/api/newsarticles/addarticle',
             {
                 title: title,
                 body: body,
@@ -90,6 +91,7 @@ export default function Login({ navigation }) {
                 company_email: "geo@gmail.com",
             })
             .then((res) => {
+                // console.log(res);
                 if (!res.data.success) {
                     Alert.alert(res.data.message);
                 } else {
@@ -97,6 +99,7 @@ export default function Login({ navigation }) {
                 }
             })
             .catch((err) => {
+                // console.log(err)
                 Alert.alert("ERROR!");
             });
     }

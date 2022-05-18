@@ -20,11 +20,11 @@ import AntDesign from 'react-native-vector-icons/AntDesign'
 const { width, height } = Dimensions.get('window');
 
 export default function Article(props, { navigation }) {
-    console.log(props.route.params.navigation)
+    // console.log(props.route.params.navigation)
     const [article] = React.useState(props.route.params.article);
     const [profile] = React.useState(props.route.params.profile);
-    const [upVote, setUpVote] = React.useState(false);
-    const [downVote, setDownVote] = React.useState(false);
+    const [upVote, setUpVote] = React.useState((props.route.params.profile && props.route.params.article && props.route.params.article.upvote.indexOf(props.route.params.profile._id) === -1) ? false : true);
+    const [downVote, setDownVote] = React.useState((props.route.params.profile && props.route.params.article && props.route.params.article.downvote.indexOf(props.route.params.profile._id) === -1) ? false : true);
     const [showMenu, setShowMenu] = React.useState(false);
     const [pinned, setPinned] = React.useState((props.route.params.profile && props.route.params.profile.pins.indexOf(article) === -1) ? false : true);
     const [loading, setLoading] = React.useState(false);
@@ -44,7 +44,8 @@ export default function Article(props, { navigation }) {
         else {
             if (!pinned) {
                 setLoading(true)
-                axios.post('https://nf-backend.herokuapp.com/api/users/addtopin', {
+                axios.post('https://nf-backend.herokuapp.com/api/users/addtopins', {
+                    email: profile.email,
                     article: article
                 }).then((res) => {
                     setLoading(false);
@@ -52,6 +53,8 @@ export default function Article(props, { navigation }) {
                         Alert.alert(res.data.message)
                     }
                     else {
+                        props.route.params.profile.pins.push(article)
+                        setPinned(true);
                         Alert.alert("Article Pinned")
                     }
                 }).catch((e) => {
@@ -60,7 +63,8 @@ export default function Article(props, { navigation }) {
             }
             else {
                 setLoading(true)
-                axios.post('https://nf-backend.herokuapp.com/api/users/removepin', {
+                axios.post('https://nf-backend.herokuapp.com/api/users/removefrompins', {
+                    email: profile.email,
                     article: article
                 }).then((res) => {
                     setLoading(false);
@@ -68,7 +72,93 @@ export default function Article(props, { navigation }) {
                         Alert.alert(res.data.message)
                     }
                     else {
+                        props.route.params.profile.pins.splice(props.route.params.profile.pins.indexOf(article), 1)
+                        setPinned(false);
                         Alert.alert("Article Removed from Pins")
+                    }
+                }).catch((e) => {
+                    Alert.alert("ERROR!");
+                })
+            }
+        }
+    }
+
+    function callUpVote() {
+        if (loading) { Alert.alert("Please wait...") }
+        else {
+            if (!upVote) {
+                setLoading(true)
+                axios.post('https://nf-backend.herokuapp.com/api/users/upvote', {
+                    profileid: profile._id,
+                    articleid: article._id
+                }).then((res) => {
+                    setLoading(false);
+                    if (res.error) {
+                        Alert.alert(res.data.message)
+                    }
+                    else {
+                        props.route.params.article.upvote.push(props.route.params.profile._id)
+                        console.log("upvoted")
+                    }
+                }).catch((e) => {
+                    Alert.alert("ERROR!");
+                })
+            }
+            else {
+                setLoading(true)
+                axios.post('https://nf-backend.herokuapp.com/api/users/removefromupvote', {
+                    id: profile._id,
+                    article: article._id
+                }).then((res) => {
+                    setLoading(false);
+                    if (res.error) {
+                        Alert.alert(res.data.message)
+                    }
+                    else {
+                        props.route.params.article.upvote.splice(props.route.params.article.upvote.indexOf(props.route.params.profile._id), 1)
+                        console.log("Removed from upvote")
+                    }
+                }).catch((e) => {
+                    Alert.alert("ERROR!");
+                })
+            }
+        }
+    }
+
+    function callDownVote() {
+        if (loading) { Alert.alert("Please wait...") }
+        else {
+            if (!downVote) {
+                setLoading(true)
+                axios.post('https://nf-backend.herokuapp.com/api/users/downvote', {
+                    email: profile.email,
+                    article: article
+                }).then((res) => {
+                    setLoading(false);
+                    if (res.error) {
+                        Alert.alert(res.data.message)
+                    }
+                    else {
+                        props.route.params.article.downvote.push(props.route.params.profile._id)
+                        console.log("downvoted")
+                    }
+                }).catch((e) => {
+                    Alert.alert("ERROR!");
+                })
+            }
+            else {
+                setLoading(true)
+                axios.post('https://nf-backend.herokuapp.com/api/users/removefromdownvote', {
+                    email: profile.email,
+                    article: article
+                }).then((res) => {
+                    setLoading(false);
+                    if (res.error) {
+                        Alert.alert(res.data.message)
+                    }
+                    else {
+                        props.route.params.article.downvote.splice(props.route.params.article.downvote.indexOf(props.route.params.profile._id), 1)
+                        console.log("Removed from upvote")
                     }
                 }).catch((e) => {
                     Alert.alert("ERROR!");
@@ -99,11 +189,11 @@ export default function Article(props, { navigation }) {
                         </View>
                     </TouchableOpacity>
                     <View style={style.bottomRightContent}>
-                        <TouchableOpacity onPress={() => { setUpVote(!upVote) }}>
+                        <TouchableOpacity onPress={() => { setUpVote(!upVote); callUpVote(); }}>
                             {(upVote) ? <AntDesign name="like1" size={30} color="black" /> : <AntDesign name="like2" size={30} color="black" />}
                         </TouchableOpacity>
-                        <TouchableOpacity onPress={() => { setDownVote(!downVote) }} style={{ marginLeft: 5, marginRight: 5, transform: [{ scaleX: -1 }, { translateY: 7.5 }], color: "black" }}>
-                            {(upVote) ? <AntDesign name="dislike1" size={30} color="black" /> : <AntDesign name="dislike2" size={30} color="black" />}
+                        <TouchableOpacity onPress={() => { setDownVote(!downVote); callDownVote(); }} style={{ marginLeft: 5, marginRight: 5, transform: [{ scaleX: -1 }, { translateY: 7.5 }], color: "black" }}>
+                            {(downVote) ? <AntDesign name="dislike1" size={30} color="black" /> : <AntDesign name="dislike2" size={30} color="black" />}
                         </TouchableOpacity>
                         <TouchableOpacity onPress={() => { setShowMenu(!showMenu) }}>
                             <ShareOps name="ellipsis-horizontal" size={35} style={{ marginLeft: 5 }} color="black" />
