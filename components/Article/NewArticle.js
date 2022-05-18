@@ -5,6 +5,7 @@ import axios from "axios";
 import MultipleSelectList from "../MultipleSelectList/MultipleSelectList"
 import DynamicInputFields from '../DynamicInputFields/DynamicInputFields';
 import ImageUpload from '../ImageUpload/ImageUpload';
+import Button from '../Button/Button';
 const { width, height } = Dimensions.get('window');
 
 export default function Login({ navigation }) {
@@ -153,9 +154,7 @@ export default function Login({ navigation }) {
                 <ImageUpload setmedia={(item) => {
                     setMedia([item])
                 }} />
-                <TouchableOpacity onPress={() => { validate() }}>
-                    <Text>Post Article</Text>
-                </TouchableOpacity>
+                <Button name="Post Article" onPress={() => { validate() }} width={width / 100 * 95} />
                 <View style={{ marginBottom: 100 }}>
                 </View>
             </ScrollView>

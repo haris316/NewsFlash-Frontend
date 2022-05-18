@@ -16,6 +16,7 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import Ellipsis from 'react-native-vector-icons/Ionicons';
 import axios from "axios"
 import { NavigationContainer } from "@react-navigation/native";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import NewArticleButton from "../Article/NewArticleButton";
 
 
@@ -24,8 +25,29 @@ const { width, height } = Dimensions.get('window');
 
 export default function Home({ navigation }) {
   const [allNews, setAllNews] = React.useState(null);
+  const [profile, setProfile] = React.useState(null);
 
-  React.useState(() => {
+  async function callProfile() {
+    const value = await AsyncStorage.getItem('token');
+    axios.post('https://nf-backend.herokuapp.com/api/users/getprofile', {
+      token: value
+    }).then((res) => {
+      if (res.error) {
+        Alert.alert(res.data.message)
+      }
+      else {
+        setProfile(res.data.data)
+      }
+    }).catch((e) => {
+      Alert.alert("ERROR!");
+    })
+  }
+
+  React.useEffect(() => {
+    callProfile();
+  }, []);
+
+  React.useEffect(() => {
     axios.post('https://nf-backend.herokuapp.com/api/newsarticles/getall')
       .then((res) => {
         if (res.data.error) {
@@ -37,7 +59,7 @@ export default function Home({ navigation }) {
       .catch((err) => {
         Alert.alert("ERROR!");
       });
-  }, [])
+  }, []);
 
 
   function showLoading() {
@@ -49,10 +71,10 @@ export default function Home({ navigation }) {
 
   function listNews() {
     if (allNews && allNews.length > 1) {
-      allNews.shift();
+      // allNews.shift();
       return allNews.map((item, key) => {
-        return <>
-          <TouchableOpacity style={style.news} onPress={() => { navigation.push("Article", { "article": item }) }}>
+        if (key !== 0) return <>
+          <TouchableOpacity style={style.news} onPress={() => { navigation.push("Article", { "article": item, "profile": profile, "navigation": navigation }) }}>
             <Image style={{ width: width / 100 * 30, height: 100, borderRadius: 5 }} source={(item.media[0]) ? { uri: item.media[0] } : require("..//../assets/images/storm.jpg")} />
             <View style={style.newsInfo}>
               <Text style={style.newsTextHeading}>{item.title}</Text>
@@ -68,7 +90,7 @@ export default function Home({ navigation }) {
   function showFeatued() {
     if (allNews && allNews.length > 0) {
       return <>
-        <TouchableOpacity style={style.hBannerContainer} onPress={() => { navigation.push("Article", { "article": allNews[0] }) }}>
+        <TouchableOpacity style={style.hBannerContainer} onPress={() => { navigation.push("Article", { "article": allNews[0], "profile": profile, "navigation": navigation }) }}>
           <Image
             style={{ height: 200, width: Dimensions.get('window').width, }}
             source={(allNews[0].media[0]) ? { uri: allNews[0].media[0] } : require("..//../assets/images/storm.jpg")}
@@ -80,7 +102,7 @@ export default function Home({ navigation }) {
   }
 
   // if (false) return (
-  if (allNews && allNews.length > 0) return (
+  if (profile && allNews && allNews.length > 0) return (
     <View style={style.container}>
       <ScrollView>
         {showFeatued()}

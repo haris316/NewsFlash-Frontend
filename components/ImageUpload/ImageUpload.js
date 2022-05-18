@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react"
-import { Button, SafeAreaView, Image, StyleSheet, Text, View } from 'react-native';
+import { SafeAreaView, Image, StyleSheet, Text, View, Dimensions } from 'react-native';
 import { showImagePicker, launchCamera, launchImageLibrary } from 'react-native-image-picker';
+import Button from "../Button/Button";
 import RNFS from 'react-native-fs';
 
 export default function ImageUpload({ setmedia }) {
 
 
-    const [url, setUrl] = React.useState("Nothing here");
+    const [url, setUrl] = React.useState(null);
 
     function handleChoosePhoto() {
         const options = {
@@ -25,8 +26,8 @@ export default function ImageUpload({ setmedia }) {
     }
     return (
         <SafeAreaView>
-            <Button title="Choose Photo" onPress={() => { handleChoosePhoto() }} />
-            <Image style={{ width: 200, height: 200 }} source={{ uri: `${url}` }} />
+            <Button name="Upload Image" onPress={() => { handleChoosePhoto() }} width={Dimensions.get('window').width / 100 * 95} height={40} />
+            {(url) ? <Image style={{ width: 200, height: 200 }} source={{ uri: `${url}` }} /> : null}
         </SafeAreaView>
     );
 }
