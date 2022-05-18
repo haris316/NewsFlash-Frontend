@@ -2,7 +2,6 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import React from "react";
 import Home from '../components/Home/Home'
 import Article from '../components/Article/Article'
-import Watch from '../components/Watch/Watch'
 import Explore from '../components/Explore/Explore'
 import Notifications from '../components/Notifications/Notifications'
 import Profile from '../components/Profile/ProfileUser'
@@ -43,22 +42,7 @@ const MyTabs = () => {
                     </View>
                 )
             }} />
-            <Tab.Screen name="Watch" component={Watch} options={{
-                tabBarIcon: ({ focused }) => (
-
-                    <View style={{ alignItems: "center", justifyContent: "center", top: 4 }}>
-
-                        <Image source={require('../assets/icon-images/watchFinal.png')}
-                            resizeMode='contain'
-                            style={{
-                                width: 22,
-                                height: 22,
-                                tintColor: focused ? '#045C5A' : '#000000'
-                            }} />
-                        <Text style={{ color: focused ? '#045C5A' : '#000000', fontSize: 12, top: 5 }}>Watch</Text>
-                    </View>
-                )
-            }} />
+           
             <Tab.Screen name="Explore" component={Explore} options={{
                 tabBarIcon: ({ focused }) => (
 
