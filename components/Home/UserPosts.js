@@ -26,6 +26,7 @@ const { width, height } = Dimensions.get('window');
 export default function Home({ navigation }) {
   const [allNews, setAllNews] = React.useState(null);
   const [profile, setProfile] = React.useState(null);
+  const [refresh, setRefresh] = React.useState(false);
 
   async function callProfile() {
     const value = await AsyncStorage.getItem('token');
@@ -45,7 +46,7 @@ export default function Home({ navigation }) {
 
   React.useEffect(() => {
     callProfile();
-  }, []);
+  }, [refresh]);
 
   React.useEffect(() => {
     axios.post('https://nf-backend.herokuapp.com/api/newsarticles/getall')
@@ -59,8 +60,7 @@ export default function Home({ navigation }) {
       .catch((err) => {
         Alert.alert("ERROR!");
       });
-  }, []);
-
+  }, [refresh]);
 
   function showLoading() {
     return <>
@@ -74,7 +74,12 @@ export default function Home({ navigation }) {
       // allNews.shift();
       return allNews.map((item, key) => {
         if (key !== 0) return <>
-          <TouchableOpacity style={style.news} onPress={() => { navigation.push("Article", { "article": item, "profile": profile, "navigation": navigation }) }}>
+          <TouchableOpacity style={style.news}
+            onPress={() => {
+              if (profile) navigation.push("Article", { "article": item, "profile": profile, "navigation": navigation });
+              else Alert.alert("It is taking a bit long fetching your profile.", "Please wait or try reloading")
+            }}
+          >
             <Image style={{ width: width / 100 * 30, height: 100, borderRadius: 5 }} source={(item.media[0]) ? { uri: item.media[0] } : require("..//../assets/images/storm.jpg")} />
             <View style={style.newsInfo}>
               <Text style={style.newsTextHeading}>{item.title}</Text>
@@ -90,7 +95,12 @@ export default function Home({ navigation }) {
   function showFeatued() {
     if (allNews && allNews.length > 0) {
       return <>
-        <TouchableOpacity style={style.hBannerContainer} onPress={() => { navigation.push("Article", { "article": allNews[0], "profile": profile, "navigation": navigation }) }}>
+        <TouchableOpacity style={style.hBannerContainer}
+          onPress={() => {
+            if (profile) navigation.push("Article", { "article": allNews[0], "profile": profile, "navigation": navigation });
+            else Alert.alert("It is taking a bit long fetching your profile.", "Please wait or try reloading")
+          }}
+        >
           <Image
             style={{ height: 200, width: Dimensions.get('window').width, }}
             source={(allNews[0].media[0]) ? { uri: allNews[0].media[0] } : require("..//../assets/images/storm.jpg")}
@@ -103,7 +113,7 @@ export default function Home({ navigation }) {
   }
 
   // if (false) return (
-  if (profile && allNews && allNews.length > 0) return (
+  if (allNews && allNews.length > 0) return (
     <View style={style.container}>
       <ScrollView>
         {showFeatued()}
@@ -194,9 +204,9 @@ const style = StyleSheet.create({
     color: "black"
   },
   Headtime: {
-    width:Dimensions.get('window').width,
-    marginLeft:Dimensions.get('window').width/100*7,
-    textAlign:"left",
+    width: Dimensions.get('window').width,
+    marginLeft: Dimensions.get('window').width / 100 * 7,
+    textAlign: "left",
     fontSize: 12,
     marginBottom: -7,
     color: "black"

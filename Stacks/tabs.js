@@ -1,6 +1,5 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import React from "react";
-import Home from '../components/Home/Home'
 import Article from '../components/Article/Article'
 import Explore from '../components/Explore/Explore'
 import Notifications from '../components/Notifications/Notifications'

@@ -1,6 +1,5 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
-import Home from '../components/Home/Home'
 import Article from '../components/Article/Article';
 import NewArticle from '../components/Article/NewArticle'
 import NewOpinion from '../components/Opinion/NewOpinion'
