@@ -4,7 +4,8 @@ import Home from '../components/Home/Home'
 import Article from '../components/Article/Article'
 import Explore from '../components/Explore/Explore'
 import Notifications from '../components/Notifications/Notifications'
-import Profile from '../components/Profile/ProfileUser'
+// import Profile from '../components/Profile/ProfileUser'
+import ProfileStack from './ProfileStack'
 import { createStackNavigator } from "@react-navigation/stack";
 
 import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
@@ -42,7 +43,7 @@ const MyTabs = () => {
                     </View>
                 )
             }} />
-           
+
             <Tab.Screen name="Explore" component={Explore} options={{
                 tabBarIcon: ({ focused }) => (
 
@@ -75,7 +76,7 @@ const MyTabs = () => {
                     </View>
                 )
             }} />
-            <Tab.Screen name="Profile" children={() => <Profile />} options={{
+            <Tab.Screen name="Profile" component={ProfileStack} options={{
                 tabBarIcon: ({ focused }) => (
 
                     <View style={{ alignItems: "center", justifyContent: "center", top: 2 }}>

@@ -22,7 +22,7 @@ const { width, height } = Dimensions.get('window');
 
 
 
-export default function Profile({ email }) {
+export default function Profile({ email, navigation }) {
     const [profile, setProfile] = React.useState(null);
     const [listdata, setListdata] = React.useState(null);
     const [list, setList] = React.useState((email !== undefined) ? ["OPINIONS", "NEWSTAND"] : ["OPINIONS", "PINS", "NEWSTAND"]);
@@ -97,10 +97,10 @@ export default function Profile({ email }) {
 
 
     function getItems() {
-        if (listdata.length > 0) return listdata.map(() => {
+        if (listdata.length > 0) return listdata.map((item) => {
             return <>
-                <TouchableOpacity style={style.post}>
-                    <Image style={style.postImage} source={require("..//../assets/images/storm.jpg")} />
+                <TouchableOpacity style={style.post} onPress={() => { navigation.push("Article", { "article": item, "profile": profile, "navigation": navigation }) }} >
+                    <Image style={style.postImage} source={(item.media[0]) ? { uri: item.media[0] } : require("..//../assets/images/storm.jpg")} />
                     <View style={style.postText}>
                         {(view === "PINS") ? <View style={{ flexDirection: "row", alignItems: "baseline", marginLeft: -6 }}>
                             <Image source={require('..//..//assets/icon-images/pin.png')}
@@ -111,10 +111,10 @@ export default function Profile({ email }) {
                             </Text>
                         </View> : null}
                         <Text style={{ fontSize: 12.5, color: "black", marginTop: -20 }}>
-                            Here's something i wrote a long time ago. Still relevant :)
+                            {item.title}
                         </Text>
                         <Text style={{ alignSelf: "flex-end", fontSize: 10 }}>
-                            28/11/18
+                            {item.author.name} | {item.createdDate.slice(0, 10).split("-").reverse().join("/")}
                         </Text>
                     </View>
                 </TouchableOpacity>
@@ -328,7 +328,7 @@ const style = StyleSheet.create({
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        borderColor:"#045C5A"
+        borderColor: "#045C5A"
     },
 
     profileTabs: {

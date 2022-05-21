@@ -23,8 +23,8 @@ export default function Article(props, { navigation }) {
     // console.log(props.route.params.navigation)
     const [article] = React.useState(props.route.params.article);
     const [profile] = React.useState(props.route.params.profile);
-    const [upVote, setUpVote] = React.useState((props.route.params.profile && props.route.params.article && props.route.params.article.upvote.indexOf(props.route.params.profile._id) === -1) ? false : true);
-    const [downVote, setDownVote] = React.useState((props.route.params.profile && props.route.params.article && props.route.params.article.downvote.indexOf(props.route.params.profile._id) === -1) ? false : true);
+    const [upVote, setUpVote] = React.useState((props.route.params.profile && props.route.params.article.upvote && props.route.params.article.upvote.indexOf(props.route.params.profile._id) === -1) ? false : true);
+    const [downVote, setDownVote] = React.useState((props.route.params.profile && props.route.params.article.downvote && props.route.params.article.downvote.indexOf(props.route.params.profile._id) === -1) ? false : true);
     const [showMenu, setShowMenu] = React.useState(false);
     const [pinned, setPinned] = React.useState((props.route.params.profile && props.route.params.profile.pins.indexOf(article) === -1) ? false : true);
     const [loading, setLoading] = React.useState(false);
