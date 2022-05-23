@@ -1,22 +1,17 @@
 import React from "react"
 import { View, Image, StyleSheet, Dimensions } from "react-native"
 const Pulse = require('react-native-pulse').default;
-const { width, height } = Dimensions.get('window');
 
-export default function helloWorld() {
+export default function helloWorld({ width, height }) {
     return (<>
-        <View style={styles.pulsecontainer}>
-            <Pulse color='#045C5A' numPulses={5} diameter={120} speed={20} duration={2000} />
+        <View style={{
+            flex: 1,
+            backgroundColor: 'transparent',
+            height: (height) ? height : Dimensions.get('window').height / 2,
+            width: (width) ? width : Dimensions.get('window').width,
+        }}>
+            <Pulse color='#045C5A' numPulses={5} diameter={80} speed={20} duration={2000} />
         </View>
     </>
     );
 }
-
-const styles = StyleSheet.create({
-    pulsecontainer: {
-        flex: 1,
-        backgroundColor: 'transparent',
-        height: height / 2,
-        width: width,
-    },
-})

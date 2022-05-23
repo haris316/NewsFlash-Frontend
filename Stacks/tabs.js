@@ -3,19 +3,47 @@ import React from "react";
 import Article from '../components/Article/Article'
 import Explore from '../components/Explore/Explore'
 import Notifications from '../components/Notifications/Notifications'
-// import Profile from '../components/Profile/ProfileUser'
+import LandingScreen from '../components/LandingScreen/LandingScreen'
 import ProfileStack from './ProfileStack'
 import { createStackNavigator } from "@react-navigation/stack";
-
-import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
+import { StyleSheet, Text, View, Image, TouchableOpacity, Alert } from "react-native";
 import { Icon } from "react-native-vector-icons/SimpleLineIcons";
 import { HomeStackScreen } from './ScreenStack';
 import TopBarNavigator from "../Tabs/HomeTabs";
+import axios from "axios";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Tab = createBottomTabNavigator();
 
 const MyTabs = () => {
-    return (
+    const [profile, setProfile] = React.useState(null);
+    const [count, setCount] = React.useState(0);
+    const [err, setErr] = React.useState(false);
+
+    async function callProfile() {
+        const value = await AsyncStorage.getItem('token');
+        axios.post('https://nf-backend.herokuapp.com/api/users/getprofile', {
+            token: value
+        }).then((res) => {
+            console.log(res)
+            if (res.error) {
+                Alert.alert(res.data.message)
+            }
+            else {
+                setProfile(res.data.data)
+            }
+        }).catch((e) => {
+            Alert.alert("ERROR!");
+        })
+    }
+
+    React.useEffect(() => {
+        callProfile();
+    }, []);
+
+
+
+    if (profile !== null) return (
         <Tab.Navigator screenOptions={{
             headerShown: false,
             tabBarShowLabel: false,
@@ -94,6 +122,7 @@ const MyTabs = () => {
 
         </Tab.Navigator>
     )
+    else return (<LandingScreen />)
 }
 
 export default MyTabs;

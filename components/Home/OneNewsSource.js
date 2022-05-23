@@ -14,20 +14,13 @@ import SmallPreloader from "../Preloaders/SmallPreloader"
 import { TouchableOpacity } from "react-native-gesture-handler";
 import axios from "axios"
 
-const imgArr = [
-    "../../assets/images/storm5.jpg",
-    "../../assets/images/storm.jpg",
-    "../../assets/images/storm2.jpg",
-    "../../assets/images/storm3.jpg",
-    "../../assets/images/storm4.jpg"
-]
 const { width, height } = Dimensions.get('window');
 const API_KEY = "719cdf3d02ff4fa59f47d2e5556e1106"
 
-export default function OneNewsSource({ navigation, source, name }) {
-    const imgPath = imgArr[Math.floor(Math.random() * imgArr.length)];
+export default function OneNewsSource({ navigation, source }) {
+    const imgNum = Math.floor(Math.random() * 4);
     const [article, setArticles] = React.useState(null);
-    const [imgErr, setImgErr] = React.useState(false);
+    const [imgErr, setImgErr] = React.useState([false, false, false, false, false]);
 
     React.useEffect(() => {
         let URL = "https://newsapi.org/v2/top-headlines?pageSize=5&page=1" + "&sources=" + source.id + "&apiKey=" + API_KEY
@@ -40,7 +33,6 @@ export default function OneNewsSource({ navigation, source, name }) {
                 else {
                     setArticles(res.data.articles)
                 }
-                // setSources(temp);
             })
             .catch((err) => {
                 Alert.alert("An unexpect error occured.", "Please try again later", "Dismiss")
@@ -48,39 +40,113 @@ export default function OneNewsSource({ navigation, source, name }) {
     }, []);
 
 
-    // function showLoading() {
-    //     return <>
-    //         <HomeSkeleton />
-    //     </>
-    // }
+    function showLoading() {
+        return <>
+            <SmallPreloader width={width / 100 * 90} height={250} />
+        </>
+    }
 
 
     function showArticle() {
         if (article && article.length > 1) {
             return article.map((item, key) => {
-                console.log(imgPath)
-                return <>
+                if (key !== 0) return <>
                     <TouchableOpacity style={style.news}
-                    // onPress={() => {
-                    //     navigation.push("ExternalNewsArticle", { "article": item, "navigation": navigation });
-                    // }}
+                        onPress={() => { navigation.push("ExternalArticle", { "article": item, "source": source, "navigation": navigation }) }}
                     >
-                        <Image style={{ width: width / 100 * 30, height: 100, borderRadius: 5 }} source={(item.urlToImage && !imgErr) ? { uri: item.urlToImage } : require("../../assets/images/storm4.jpg")} onError={() => { setImgErr(true) }} />
+                        <Image
+                            style={{ width: width / 100 * 30, height: 100, borderRadius: 5 }}
+                            source={(item.urlToImage && !imgErr[key]) ?
+                                { uri: item.urlToImage }
+                                :
+                                (imgNum === 0) ? require("../../assets/images/storm.jpg")
+                                    :
+                                    (imgNum === 1) ? require("../../assets/images/storm1.jpg")
+                                        :
+                                        (imgNum === 2) ? require("../../assets/images/storm5.jpg")
+                                            :
+                                            require("../../assets/images/storm4.jpg")
+                            }
+                            onError={() => {
+                                const list = [...imgErr];
+                                list[key] = true;
+                                setImgErr(list);
+                            }}
+                        // onLoadStart={() => {
+                        //     const list = [...imgErr];
+                        //     list[0] = true;
+                        //     setImgErr(list);
+                        // }}
+                        />
                         <View style={style.newsInfo}>
                             <Text style={style.newsTextHeading}>{item.title}</Text>
-                            <Text style={style.time}>{item.author} | {item.publishedAt.slice(0, 10).split("-").reverse().join("/")}</Text>
+                            <Text style={style.time}>{(item.author) ? item.author : "Anonymous"} | {item.publishedAt.slice(0, 10).split("-").reverse().join("/")}</Text>
                         </View>
                     </TouchableOpacity>
                 </>
             })
         }
-        return <Text>{source.name}</Text>
+    }
+
+    function showFeaturedArticle() {
+        if (article && article.length > 0) {
+            // console.log(article[0])
+            return <>
+                <TouchableOpacity style={style.featnews}
+                    onPress={() => {
+                        navigation.push("ExternalArticle", { "article": article[0], "source": source, "navigation": navigation });
+                    }}
+                >
+                    <Image
+                        style={{ width: width / 100 * 95, height: 200, borderRadius: 0 }}
+                        source={(article[0].urlToImage && !imgErr[0]) ?
+                            { uri: article[0].urlToImage }
+                            :
+                            (imgNum === 0) ? require("../../assets/images/storm.jpg")
+                                :
+                                (imgNum === 1) ? require("../../assets/images/storm1.jpg")
+                                    :
+                                    (imgNum === 2) ? require("../../assets/images/storm4.jpg")
+                                        :
+                                        require("../../assets/images/storm5.jpg")
+                        }
+                        // onLoadStart={() => {
+                        //     const list = [...imgErr];
+                        //     list[0] = true;
+                        //     setImgErr(list);
+                        // }}
+                        // onLoadEnd={() => {
+                        //     const list = [...imgErr];
+                        //     list[0] = false;
+                        //     setImgErr(list);
+                        // }}
+                        onError={() => {
+                            const list = [...imgErr];
+                            list[0] = true;
+                            setImgErr(list);
+                        }}
+                    />
+                    <View style={style.featnewsInfo}>
+                        <Text style={style.newsTextHeading}>{article[0].title}</Text>
+                        <Text style={style.featnewsTextDesc}>{article[0].description}</Text>
+                        <Text style={style.feattime}>{article[0].author} | {article[0].publishedAt.slice(0, 10).split("-").reverse().join("/")}</Text>
+                    </View>
+                </TouchableOpacity>
+            </>
+        }
     }
 
 
-    return (
+    if (article && article.length > 1) return (
+        // if (false) return (
         <>
+            {showFeaturedArticle()}
             {showArticle()}
+        </>
+    )
+    else return (
+        <>
+            {showLoading()}
         </>
     )
 }
@@ -146,6 +212,9 @@ const style = StyleSheet.create({
         marginBottom: 5,
         flexDirection: "row",
     },
+    featnews: {
+        marginBottom: 5,
+    },
 
     newsImage: {
         width: width / 100 * 30,
@@ -155,6 +224,14 @@ const style = StyleSheet.create({
         justifyContent: "space-between",
         margin: width / 100 * 2,
         width: width / 100 * 60,
+    },
+    featnewsInfo: {
+        justifyContent: "space-between",
+        marginLeft: width / 100 * 1,
+        marginRight: width / 100 * 1,
+        marginTop: 12,
+        marginBottom: 12,
+        width: width / 100 * 96,
     },
     newsTextHeading: {
         color: "black"
@@ -167,10 +244,20 @@ const style = StyleSheet.create({
         marginBottom: -7,
         color: "black"
     },
+    featnewsTextDesc: {
+        color: "black",
+        fontSize: 12,
+        marginTop: 5
+    },
     time: {
         fontSize: 12,
         marginBottom: -7,
-        color: "black"
+        color: "#666"
+    },
+    feattime: {
+        fontSize: 12,
+        marginTop: 5,
+        color: "#666"
     }
 })
 

@@ -10,7 +10,7 @@ import {
     // FlatList,
     // Animated
 } from "react-native";
-import HomeSkeleton from "../Preloaders/Skeleton/HomeSkeleton"
+import NewsSkeleton from "../Preloaders/Skeleton/NewsSkeleton"
 import { TouchableOpacity } from "react-native-gesture-handler";
 import axios from "axios"
 import OneNewsSource from "./OneNewsSource";
@@ -40,7 +40,6 @@ export default function News({ navigation }) {
                         "fox-news",
                         "google-news",
                         "national-geographic",
-                        "new-york-magazine",
                         "time"
                     ]
                     let temp = []
@@ -62,19 +61,19 @@ export default function News({ navigation }) {
 
     function showLoading() {
         return <>
-            <Text>Loading...</Text>
+            <NewsSkeleton />
         </>
     }
 
 
     function listSource() {
-        if (sources && sources.length > 1) {
+        if (sources && sources.length > 0) {
             return sources.map((item, key) => {
                 return <View style={style.oneSource}>
                     <Text style={style.oneSourceHead}>{item.name}</Text>
                     <Text style={style.oneSourceText}>{item.description}</Text>
                     <View style={style.oneArticle}>
-                        <OneNewsSource source={item} navigation={navigation} name={item.name} />
+                        <OneNewsSource source={{ id: item.id, name: item.name, url: item.url, description: item.description }} navigation={navigation} />
                     </View>
                 </View>
             })

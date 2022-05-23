@@ -4,6 +4,7 @@ import { NavigationContainer } from '@react-navigation/native'
 import { createMaterialTopTabNavigator, MaterialTopTabBar } from '@react-navigation/material-top-tabs'
 import { HomeStackScreen } from '../Stacks/ScreenStack';
 import News from '../components/Home/News';
+import Test from '../components/Article/ExternalArticle';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import UserPosts from '../components/Home/UserPosts';
 
@@ -24,11 +25,11 @@ function MyTabs() {
             }}
 
         >
-            <Tab.Screen
+            {/* <Tab.Screen
                 name='News'
                 component={News}
                 options={{ tabBarLabel: 'Latest News' }}
-            />
+            /> */}
 
             <Tab.Screen
                 name='UserPosts'
