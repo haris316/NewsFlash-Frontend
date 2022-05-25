@@ -15,9 +15,9 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Tab = createBottomTabNavigator();
 
-const MyTabs = () => {
+export default function MyTabs() {
     const [profile, setProfile] = React.useState(null);
-    const [count, setCount] = React.useState(0);
+    // const [count, setCount] = React.useState(0);
     const [err, setErr] = React.useState(false);
 
     async function callProfile() {
@@ -25,7 +25,7 @@ const MyTabs = () => {
         axios.post('https://nf-backend.herokuapp.com/api/users/getprofile', {
             token: value
         }).then((res) => {
-            console.log(res)
+            // console.log(res)
             if (res.error) {
                 Alert.alert(res.data.message)
             }
@@ -37,13 +37,28 @@ const MyTabs = () => {
         })
     }
 
+    async function checkProfile() {
+        if (profile) console.log("good")
+        else console.log("bad")
+    }
+
+    async function callFunction() {
+        await callProfile();
+    }
+
     React.useEffect(() => {
-        callProfile();
+        callFunction();
     }, []);
 
-
-
-    if (profile !== null) return (
+    if (profile === null) {
+        // if (true) {
+        return (
+            <>
+                <LandingScreen />
+            </>
+        )
+    }
+    else return (
         <Tab.Navigator screenOptions={{
             headerShown: false,
             tabBarShowLabel: false,
@@ -122,9 +137,6 @@ const MyTabs = () => {
 
         </Tab.Navigator>
     )
-    else return (<LandingScreen />)
 }
-
-export default MyTabs;
 
 
