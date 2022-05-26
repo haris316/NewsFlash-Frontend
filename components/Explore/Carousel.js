@@ -65,7 +65,7 @@ const Carousel = ({data}) => {
                         return(
                             <Animated.View
                                 key={i}
-                                style = {{opacity, height : 10, width:10, backgroundColor: "#000",margin:8,borderRadius:5}}
+                                style = {{opacity, height : 10, width:10, backgroundColor: "#045c5a",margin:8,borderRadius:5}}
                             />
                         )
                     })}

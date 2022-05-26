@@ -14,149 +14,173 @@ import Carousel from "./Carousel";
 import { dummyData } from "./tempData";
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
 import Icon from 'react-native-vector-icons/AntDesign'
-import { Row } from "native-base";
+import axios from "axios";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { call } from "react-native-reanimated";
+import OneNewsSource from "../Home/OneNewsSource";
 
 
 
-const {width, height} = Dimensions.get('window')
+const {width, height} = Dimensions.get('window');
+const API_KEY = "719cdf3d02ff4fa59f47d2e5556e1106";
 
 
 
-export default function Explore() {
+
+export default function Explore({navigation}) {
+
+  const [categories, setCategories] = React.useState(null);
+  const [search, setSearch] = React.useState(null);
+  const [news, setNews] = React.useState(null);
+  const [catHeading, setCatHeading] = React.useState(null);
+  const [profile, setProfile] = React.useState(null);
+  const [refresh, setRefresh] = React.useState(false);
+
+  
+  // React.useEffect(() => {
+    
+  //   callProfile();
+
+  //   // setRefresh(false)
+  // }, []);
+
+  React.useEffect(() => {
+    axios.get('https://nf-backend.herokuapp.com/api/category/getall')
+      .then((res) => {
+        if (res.data.error) {
+          Alert.alert(res.data.message);
+        } else {
+          setCategories(res.data.data);
+        }
+      })
+      .catch((err) => {
+        Alert.alert("ERROR!");
+      });
+  }, []);
+
+ 
+
+
+  function listCat() {
+    if (categories && categories.length > 1){
+     return categories.map((category) => {
+        // console.log("cat here", category.name);
+        return<>
+        <TouchableOpacity style = {style.categoryView} onPress = {() => catArticles(category.name)}>
+        <Text style = {{color: "#045c5a", fontWeight: "600"}}>{category.name.toUpperCase()}</Text>
+    </TouchableOpacity>
+    </>
+
+      })
+      
+
+    }
+
+  }
+
+  function catArticles(category){
+
+  
+    if (category){
+      setCatHeading(category);
+      axios.get("https://newsapi.org/v2/everything?q=" + category +  "&apiKey=" + API_KEY)
+      .then((res) => {
+        if (res.data.error){
+          Alert.alert(res.data.message)
+        }
+        else {
+           setNews(res.data.articles);
+          // console.log(res.data)
+        }
+      })
+      .catch((error) => {
+        Alert.alert("ERROR");
+      })
+
+    }
+
+  }
+
+
+
+ 
+  function displayArticles(articles){
+    
+    if (articles && articles.length>1){
+      console.log("SDFGHJK", profile)
+      
+     return articles.map((article, key) => {
+       if (key!== 0){
+      return <>
+      <TouchableOpacity style = {style.box}  onPress={() => <OneNewsSource source={{ id: article.source.id, name: article.title, url: article.url, description: article.description }} navigation={navigation}/> } > 
+                  <Image
+                  source = {{
+                    uri: article.urlToImage,
+                  }}
+                    
+                    style = {style.imageContainer}
+                  />
+                    <View style = {style.overlay}></View>
+                    <View style = {style.textView}>
+                      <Text style = {style.textHeading}>{article.title.slice(0,50)}...</Text>
+                    </View>
+
+                  
+                </TouchableOpacity>
+                </>
+       }
+    })
+
+  }
+
+  }
 
         return (
           <ScrollView>
             <Carousel data = {dummyData}/>
             <View style={style.searchBar}>
-              <EvilIcons style={style.searchIcon} name="search" size={20} color="#000"/>
+              
               <TextInput
                 style = {style.input}
                 placeholder="Search"
+                placeholderTextColor={'black'}
+                onChangeText = {setSearch}
+                
                
                
               />
+              <TouchableOpacity style = {style.searchButton} onPress = {() => catArticles(search)}>
+                <EvilIcons style={style.searchIcon} name="search" size={25} color="#000"/>
+              </TouchableOpacity>
             </View>
-            <ScrollView>
-
+           
+              
               <ScrollView horizontal= {true} showsHorizontalScrollIndicator  =
               {false}>
-                <TouchableOpacity style = {style.categoryView}>
-                  <Text style = {{color: "white"}}>ENTERTAINMENT</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style = {style.categoryView}>
-                  <Text style = {{color: "white"}}>SPORTS</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style = {style.categoryView}>
-                  <Text style = {{color: "white"}}>ENTERTAINMENT</Text>
-                </TouchableOpacity>
+                {
+                  listCat()
+                }
               </ScrollView>
-            </ScrollView>
+           
 
             <View style = {style.heading}>
               <Text style = {{color: 'black',fontSize: 20}}>
-                Featured
+                {catHeading}
               </Text>
-              <TouchableOpacity>
+              {/* <TouchableOpacity>
                 <Icon name="arrowright" size={30} color = {'black'} />
-              </TouchableOpacity>
+              </TouchableOpacity> */}
             </View>
-            <ScrollView horizontal = {true} showsHorizontalScrollIndicator = {false} style = {style.posts}>
-                <TouchableOpacity style = {style.box}>
-                  <Image
-                    source={require('..//../assets/images/huda.png')}
-                    style = {style.imageContainer}
-                  />
-                    <View style = {style.overlay}></View>
-                    <Text>Heading...</Text>
+            <View  style = {style.posts}>
+                
 
-                  
-                </TouchableOpacity>
+               { displayArticles(news)}
 
-                <TouchableOpacity style = {style.box}>
-                  <Image
-                    source={require('..//../assets/images/huda.png')}
-                    style = {style.imageContainer}
-                  />
-                    <View style = {style.overlay}></View>
-                    <Text>Heading...</Text>
-
-                  
-                </TouchableOpacity>
-
-                <TouchableOpacity style = {style.box}>
-                  <Image
-                    source={require('..//../assets/images/huda.png')}
-                    style = {style.imageContainer}
-                  />
-                    <View style = {style.overlay}></View>
-                    <Text>Heading...</Text>
-
-                  
-                </TouchableOpacity>
-                <TouchableOpacity style = {style.box}>
-                  <Image
-                    source={require('..//../assets/images/huda.png')}
-                    style = {style.imageContainer}
-                  />
-                    <View style = {style.overlay}></View>
-                    <Text>Heading...</Text>
-
-                  
-                </TouchableOpacity>
-            </ScrollView>
-
-            <View style = {style.heading}>
-              <Text style = {{color: 'black',fontSize: 20}}>
-                Opinions
-              </Text>
-              <TouchableOpacity>
-                <Icon name="arrowright" size={30} color = {'black'} />
-              </TouchableOpacity>
+               
             </View>
-            <ScrollView horizontal = {true} showsHorizontalScrollIndicator = {false} style = {style.posts}>
-                <TouchableOpacity style = {style.box}>
-                  <Image
-                    source={require('..//../assets/images/huda.png')}
-                    style = {style.imageContainer}
-                  />
-                    <View style = {style.overlay}></View>
-                    <Text>Heading...</Text>
 
-                  
-                </TouchableOpacity>
-
-                <TouchableOpacity style = {style.box}>
-                  <Image
-                    source={require('..//../assets/images/huda.png')}
-                    style = {style.imageContainer}
-                  />
-                    <View style = {style.overlay}></View>
-                    <Text>Heading...</Text>
-
-                  
-                </TouchableOpacity>
-
-                <TouchableOpacity style = {style.box}>
-                  <Image
-                    source={require('..//../assets/images/huda.png')}
-                    style = {style.imageContainer}
-                  />
-                    <View style = {style.overlay}></View>
-                    <Text>Heading...</Text>
-
-                  
-                </TouchableOpacity>
-                <TouchableOpacity style = {style.box}>
-                  <Image
-                    source={require('..//../assets/images/huda.png')}
-                    style = {style.imageContainer}
-                  />
-                    <View style = {style.overlay}></View>
-                    <Text style = {style.boxText}>Heading...</Text>
-
-                  
-                </TouchableOpacity>
-            </ScrollView>
+            
+            
             <View style = {{height : height/100 *10, width: width}}></View>
 
            
@@ -180,25 +204,38 @@ const style = StyleSheet.create({
     
   },
   searchIcon : {
-    marginLeft: 7,
+ 
+  alignSelf : "center"
+   
     
   },
 
   input : {
     marginBottom : -2,
-    marginLeft : 7
+    marginLeft : 7,
+    width: width/2 + 10,
+    
   },
 
   categoryView : {
-    width : width/100 * 50,
-    height : height/100*13,
-    borderWidth: 1,
+   
+  //  width : width/100 * 40,
+  //  height : height/100 * 6,
+  paddingVertical : width/100 * 3,
+     padding : width/100 *4,
+    borderWidth: 3,
     marginTop : height/100 *5,
-    borderRadius : 15,
+    borderRadius : 100,
     justifyContent : "center",
     alignItems: "center",
     marginLeft : width/100 * 3,
-    backgroundColor: "#045C5AE5"
+    borderColor : "#045c5a",
+    // backgroundColor: "#045C5A",
+    // shadowColor: '#000',
+    // shadowOffset: {width:0.7,height:1},
+    // shadowOpacity : 0.9,
+    // shadowRadius: 5,
+    // elevation: 9,
   },
 
   heading : {
@@ -210,42 +247,87 @@ const style = StyleSheet.create({
   },
 
   box : {
-    height : height/100 * 15,
-    width : width/100 * 30,
+    height : height/100 * 22,
+    width : width/100 * 43,
     borderWidth: 1,
     borderRadius : 15,
-    marginRight : width/100 * 3
+    // marginRight : width/100 * 4,
+    backgroundColor : '000',
+    shadowColor: '#000',
+    shadowOffset: {width:4,height:4},
+    shadowOpacity : 0.9,
+    shadowRadius: 9,
+    elevation: 9,
+    marginBottom : height/100 * 4
     
    
   },
 
   imageContainer : {
-    height : height/100 * 13,
-    width : width/ 100 * 30,
-    borderRadius : 15
+    height : height/100 * 21.5,
+    width : width/100 * 42.5,
+    borderRadius : 15,
+ 
+    
   },
 
   overlay: {
     ...StyleSheet.absoluteFillObject,
-    backgroundColor:'rgba(0,0,0,0.7)',
-    borderRadius : 15
+    backgroundColor:'rgba(0,0,0,0.58)',
+    borderRadius : 15,
+    
 },
 
   posts : {
     width : width/100 * 90,
     alignSelf : "center",
-    marginTop : height/100 * 1
+    marginTop : height/100 * 3,
+    flexWrap : "wrap",
+    flexDirection: "row",
+    justifyContent:"space-between"
    
     
   },
 
   boxText : {
     position: 'absolute',
-    bottom: 10,
+    bottom: (height/100 * 22)/2,
     margin: 10,
-    left: 5,
+    left: (width/100 * 43)/2,
     color : 'white',
-    marginTop : 20
+    
   }
+  ,
+  textView : {
+    position: 'absolute',
+        bottom: 20,
+        margin: 10,
+        left: 5,
+        textAlign: "center",
+        alignItems: "center"
+  },
+  textHeading : {
+    color : 'white',
+    fontSize: 15,
+    shadowColor : '#000',
+    shadowOffset: {width: 0.8, height: 0.8},
+    shadowOpacity : 0.5,
+    shadowRadius: 3,
+    
+    fontWeight : 'bold',
+    elevation : 5,
+    alignSelf : "center"
+  },
+
+  searchButton : {
+    backgroundColor : '#045c5a',
+    borderRadius : 30,
+    width : width/100 * 13,
+    alignItems: "center",
+    justifyContent: 'center',
+    marginLeft : width/100 * -2,
+    height : height /20
+  }
+
 })
 

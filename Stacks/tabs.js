@@ -8,7 +8,7 @@ import ProfileStack from './ProfileStack'
 import { createStackNavigator } from "@react-navigation/stack";
 import { StyleSheet, Text, View, Image, TouchableOpacity, Alert } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
-import { HomeStackScreen } from './ScreenStack';
+import { ExploreStackScreen, HomeStackScreen } from './ScreenStack';
 import TopBarNavigator from "../Tabs/HomeTabs";
 import axios from "axios";
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -42,7 +42,7 @@ export default function MyTabs() {
                 )
             }} />
 
-            <Tab.Screen name="Explore" component={Explore} options={{
+            <Tab.Screen name="Explore" component={ExploreStackScreen} options={{
                 tabBarIcon: ({ focused }) => (
                     <View style={{ alignItems: "center", justifyContent: "center", top: 0 }}>
                         <Icon
