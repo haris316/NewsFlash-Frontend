@@ -25,11 +25,11 @@ function MyTabs() {
             }}
 
         >
-            {/* <Tab.Screen
+            <Tab.Screen
                 name='News'
                 component={News}
                 options={{ tabBarLabel: 'Latest News' }}
-            /> */}
+            />
 
             <Tab.Screen
                 name='UserPosts'

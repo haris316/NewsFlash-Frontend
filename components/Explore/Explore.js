@@ -109,10 +109,13 @@ export default function Explore({navigation}) {
     if (articles && articles.length>1){
       console.log("SDFGHJK", profile)
       
+      
      return articles.map((article, key) => {
+       
        if (key!== 0){
       return <>
-      <TouchableOpacity style = {style.box}  onPress={() => <OneNewsSource source={{ id: article.source.id, name: article.title, url: article.url, description: article.description }} navigation={navigation}/> } > 
+      
+      <TouchableOpacity style = {style.box}   onPress={() => { navigation.push("ExternalArticle", { "article": article, "source": {id: article.id, name: article.title, url: article.url, description: article.description} , "navigation": navigation })}}  > 
                   <Image
                   source = {{
                     uri: article.urlToImage,
