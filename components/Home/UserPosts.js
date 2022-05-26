@@ -8,7 +8,8 @@ import {
   ScrollView,
   Dimensions,
   FlatList,
-  Animated
+  Animated,
+  RefreshControl
 } from "react-native";
 import HomeSkeleton from "../Preloaders/Skeleton/HomeSkeleton"
 import { TouchableOpacity } from "react-native-gesture-handler";
@@ -46,6 +47,7 @@ export default function Home({ navigation }) {
 
   React.useEffect(() => {
     callProfile();
+    setRefresh(false)
   }, [refresh]);
 
   React.useEffect(() => {
@@ -113,9 +115,17 @@ export default function Home({ navigation }) {
   }
 
   // if (false) return (
-  if (allNews && allNews.length > 0) return (
+  if (profile && allNews && allNews.length > 0) return (
     <View style={style.container}>
-      <ScrollView>
+      <ScrollView
+        refreshControl={
+          <RefreshControl
+            refreshing={refresh}
+            onRefresh={() => { setAllNews(null); setRefresh(true) }}
+            progressBackgroundColor="#045c5a"
+          />
+        }
+      >
         {showFeatued()}
         <View style={style.newsContainer}>
           {listNews()}

@@ -1,31 +1,37 @@
-import React from 'react';
-import { SafeAreaView, Text, TouchableOpacity } from 'react-native';
-import { AuthContext } from "../context";
+import React, { Component } from 'react';
+import { StatusBar, SafeAreaView, Image, Dimensions, View } from 'react-native';
+import NavigationBar from 'react-native-navbar-color'
 
+export default class MyComponent extends Component {
 
-export default function LandingScreen() {
-    const [show, setShow] = React.useState(false);
-    const { signOut } = React.useContext(AuthContext);
-
-    React.useEffect(() => {
-        const timeOutId = setTimeout(() => {
-            setShow(true)
-        }, 5000);
-        return () => clearTimeout(timeOutId);
-    }, [])
-
-    return (
-        <SafeAreaView>
-            <Text>Landing Screen</Text>
-            <Text>Loading...</Text>
-            <Text></Text>
-            <Text></Text>
-            <Text></Text>
-            {(show) ? (<>
-                <TouchableOpacity onPress={() => { signOut() }}>
-                    <Text>Logout</Text>
-                </TouchableOpacity>
-            </>) : null}
-        </SafeAreaView>
-    )
+    componentDidMount() {
+        NavigationBar.setColor('#000000')
+        StatusBar.setHidden(true, "none");
+    }
+    componentWillUnmount() {
+        StatusBar.setHidden(false, "slide");
+    }
+    render() {
+        return (
+            <SafeAreaView>
+                <View
+                    style={{
+                        width: Dimensions.get('window').width,
+                        height: Dimensions.get('window').height,
+                        backgroundColor: "#000",
+                        justifyContent: "center",
+                        alignItems: "center",
+                    }}
+                >
+                    <Image
+                        source={require("../../assets/images/FYPLogo-NF3.png")}
+                        style={{
+                            width: Dimensions.get('window').width / 100 * 80,
+                            height: Dimensions.get('window').height / 100 * 25
+                        }}
+                    />
+                </View>
+            </SafeAreaView>
+        )
+    }
 }

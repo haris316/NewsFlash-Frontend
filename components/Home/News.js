@@ -7,6 +7,7 @@ import {
     Image,
     ScrollView,
     Dimensions,
+    RefreshControl
     // FlatList,
     // Animated
 } from "react-native";
@@ -49,7 +50,8 @@ export default function News({ navigation }) {
                         }
                         return null;
                     })
-                    console.log(temp);
+                    // console.log(temp);
+                    setRefresh(false);
                     setSources(temp);
                 }
             })
@@ -83,7 +85,15 @@ export default function News({ navigation }) {
     // if (false) return (
     if (sources && sources.length > 0) return (
         <View style={style.container}>
-            <ScrollView>
+            <ScrollView
+                refreshControl={
+                    <RefreshControl
+                        refreshing={refresh}
+                        onRefresh={() => { setSources(null); setRefresh(true) }}
+                        progressBackgroundColor="#045c5a"
+                    />
+                }
+            >
                 <View style={style.newsContainer}>
                     {listSource()}
                 </View>

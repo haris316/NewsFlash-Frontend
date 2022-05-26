@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, TouchableOpacity, Text, TextInput,  Dimensions, ImageBackground,Alert, Image, StyleSheet } from 'react-native';
+import { View, TouchableOpacity, Text, TextInput, Dimensions, ImageBackground, Alert, Image, StyleSheet } from 'react-native';
 import { useState } from 'react';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Icon2 from 'react-native-vector-icons/AntDesign'
@@ -93,18 +93,18 @@ export default function Login({ navigation }) {
                         <View style={style.creds}>
                             <Icon name={'ios-person-outline'} size={23} color={'#045c5a'} style={style.inputIcon} />
                             <TextInput style={style.input}
+                                autoCapitalize="none"
                                 placeholder={'Email'}
                                 value={email}
                                 placeholderTextColor={'#045c5a'}
                                 underlineColorAndroid='transparent'
                                 onChangeText={setEmail}
                             />
-
-
                         </View>
                         <View>
                             <Icon2 name={'lock'} size={25} color={'#045c5a'} style={style.inputIcon} />
                             <TextInput style={style.input}
+                                autoCapitalize="none"
                                 placeholder={'Password'}
                                 value={password}
                                 secureTextEntry={showPass}

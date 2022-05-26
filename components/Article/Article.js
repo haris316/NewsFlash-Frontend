@@ -15,6 +15,7 @@ import axios from "axios"
 import Icon from 'react-native-vector-icons/EvilIcons'
 import ShareOps from 'react-native-vector-icons/Ionicons'
 import AntDesign from 'react-native-vector-icons/AntDesign'
+import Button from "../Button/Button";
 
 
 const { width, height } = Dimensions.get('window');
@@ -23,6 +24,7 @@ export default function Article(props, { navigation }) {
     // console.log(props.route.params.navigation)
     const [article] = React.useState(props.route.params.article);
     const [profile] = React.useState(props.route.params.profile);
+    console.log(article)
     const [upVote, setUpVote] = React.useState((props.route.params.profile && props.route.params.article.upvote && props.route.params.article.upvote.indexOf(props.route.params.profile._id) !== -1) ? true : false);
     const [downVote, setDownVote] = React.useState((props.route.params.profile && props.route.params.article.downvote && props.route.params.article.downvote.indexOf(props.route.params.profile._id) !== -1) ? true : false);
     const [showMenu, setShowMenu] = React.useState(false);
@@ -182,10 +184,10 @@ export default function Article(props, { navigation }) {
             <View style={style.bottomContainer}>
                 <View style={style.bottomContent}>
                     <TouchableOpacity style={style.bottomLeftContent}>
-                        <Image source={require('../../assets/images/blacktemp.jpg')} style={style.profilePic} />
+                        <Image source={require('../../assets/icon-images/profileFinal.png')} style={style.profilePic} />
                         <View style={style.User}>
-                            <Text style={{ color: 'black', fontWeight: '500' }}>Name</Text>
-                            <Text>Reporter</Text>
+                            <Text style={{ color: 'black', fontWeight: '500' }}>{(article.author) ? article.author.name : "Anonymous"}</Text>
+                            <Text>User</Text>
                         </View>
                     </TouchableOpacity>
                     <View style={style.bottomRightContent}>
@@ -199,8 +201,8 @@ export default function Article(props, { navigation }) {
                             <ShareOps name="ellipsis-horizontal" size={35} style={{ marginLeft: 5 }} color="black" />
                         </TouchableOpacity>
                         {(showMenu) ? <View style={style.menuBox}>
-                            <TouchableOpacity onPress={() => { props.route.params.navigation.push("Opinion", { "article": article, "profile": profile }) }}><Text>Share as Opinion</Text></TouchableOpacity>
-                            <TouchableOpacity onPress={() => { callPin() }}><Text>Pin Article</Text></TouchableOpacity>
+                            <TouchableOpacity style={style.menuButtons} onPress={() => { props.route.params.navigation.push("Opinion", { "article": article, "profile": profile }) }}><Text style={style.menuText}>Share as Opinion</Text></TouchableOpacity>
+                            <TouchableOpacity style={style.menuButtons} onPress={() => { callPin() }}><Text style={style.menuText}>Pin Article</Text></TouchableOpacity>
                         </View> : null}
                     </View>
 
@@ -294,12 +296,28 @@ const style = StyleSheet.create({
         position: "absolute",
         backgroundColor: "#eee",
         width: width / 100 * 50,
-        height: height / 100 * 20,
-        transform: [{ translateY: -(height / 100 * 20) }, { translateX: -(width / 100 * 10) }],
+        height: height / 100 * 12,
+        transform: [{ translateY: -(height / 100 * 12) }, { translateX: -(width / 100 * 9) }],
         borderRadius: 7.5,
         borderColor: "#000",
         borderWidth: 1,
         padding: 10,
+    },
+    menuButtons: {
+        width: 160,
+        marginVertical: 2.5,
+        height: 28,
+        borderRadius: 5,
+        borderColor: "white",
+        borderWidth: 1,
+        padding: 5,
+        justifyContent: "center",
+        alignItems: "center",
+        backgroundColor: "#045c5a"
+    },
+    menuText: {
+        color: "white",
+        fontSize: 12,
     }
 })
 

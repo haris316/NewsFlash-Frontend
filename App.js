@@ -7,10 +7,20 @@ import { ActivityIndicator, View } from 'react-native';
 import { AuthContext } from './components/context';
 import TopBarNavigator from './Tabs/HomeTabs';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
+import LandingScreen from './components/LandingScreen/LandingScreen';
+import 'react-native-gesture-handler'
 
 export default function App() {
   // const[isLoading, setIsLoading] = React.useState(true);
   const [existingToken, setToken] = React.useState(null);
+  const [showLanding, setShowLanding] = React.useState(true);
+
+  React.useEffect(() => {
+    const timeOutId = setTimeout(() => {
+      setShowLanding(false)
+    }, 5000);
+    return () => clearTimeout(timeOutId);
+  }, [])
 
   initialLoginState = {
     isLoading: true,
@@ -53,9 +63,6 @@ export default function App() {
 
   const authContext = React.useMemo(() => ({
     signIn: (token) => {
-      // setUserToken('jdjd');
-      // setIsLoading(false);
-
       setToken(token);
       dispatch({ type: 'LOGIN', token: token });
     },
@@ -63,8 +70,6 @@ export default function App() {
       dispatch({ type: 'LOGOUT' })
     },
     signUp: () => {
-      // setUserToken('jdjd');
-      // setIsLoading(false);
     },
   }), []);
 
@@ -84,7 +89,8 @@ export default function App() {
     )
   }
 
-  return (
+  if (showLanding) return <LandingScreen />
+  else return (
     <AuthContext.Provider value={authContext}>
       <NavigationContainer>
         {loginState.userToken === null ?
@@ -93,9 +99,6 @@ export default function App() {
         }
       </NavigationContainer>
     </AuthContext.Provider>
-    // <SafeAreaProvider>
-    //   <TopBarNavigator/>
-    // </SafeAreaProvider>
   );
 }
 

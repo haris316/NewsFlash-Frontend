@@ -53,6 +53,7 @@ export default function Profile({ email, navigation }) {
             axios.post('https://nf-backend.herokuapp.com/api/users/getprofile', {
                 token: value
             }).then((res) => {
+                console.log(res);
                 if (res.error) {
                     Alert.alert(res.data.message)
                     setError(true)

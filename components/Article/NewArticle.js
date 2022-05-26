@@ -64,20 +64,7 @@ export default function Login({ navigation }) {
     }
 
     function NewArticleAPI() {
-        // console.log({
-        //     title: title,
-        //     body: body,
-        //     summary: summary,
-        //     categories: category,
-        //     media: media,
-        //     links: links,
-        //     hashtags: hashtags,
-        //     keywords: keywords,
-        //     author_email: "huda@gmail.com",
-        //     company_email: "geo@gmail.com",
-        // })
         axios.post('https://nf-backend.herokuapp.com/api/newsarticles/addarticle',
-            // axios.get('http://192.168.10.2:7000/api/newsarticles/addarticle',
             {
                 title: title,
                 body: body,
@@ -91,7 +78,6 @@ export default function Login({ navigation }) {
                 company_email: "geo@gmail.com",
             })
             .then((res) => {
-                // console.log(res);
                 if (!res.data.success) {
                     Alert.alert(res.data.message);
                 } else {
@@ -99,39 +85,63 @@ export default function Login({ navigation }) {
                 }
             })
             .catch((err) => {
-                // console.log(err)
                 Alert.alert("ERROR!");
             });
     }
     return (
         <>
             <ScrollView>
-                <View>
-                    <TextInput style={style.input}
-                        placeholder={'Title'}
-                        value={title}
-                        placeholderTextColor={'#045c5a'}
-                        underlineColorAndroid='transparent'
-                        onChangeText={setTitle}
-                    />
-                </View>
-                <View style={style.body}>
-                    <TextInput style={style.input}
-                        placeholder={'Write your text here...'}
-                        value={body}
-                        placeholderTextColor={'#045c5a'}
-                        underlineColorAndroid='transparent'
-                        onChangeText={setBody}
-                    />
-                </View>
-                <View>
-                    <TextInput style={style.input}
-                        placeholder={'summary'}
-                        value={summary}
-                        placeholderTextColor={'#045c5a'}
-                        underlineColorAndroid='transparent'
-                        onChangeText={setSummary}
-                    />
+                <Text
+                    style={{
+                        color: "#045c5a",
+                        fontSize: 18,
+                        fontWeight: "600",
+                        marginHorizontal: width / 100 * 5,
+                        marginTop: width / 100 * 5,
+                        marginBottom: width / 100 * 2,
+                    }}
+                >News Details</Text>
+                <View
+                    style={{
+                        borderWidth: 1,
+                        borderRadius: 5,
+                        borderColor: "#444444",
+                        width: width / 100 * 90,
+                        marginHorizontal: width / 100 * 5,
+                        marginBottom: width / 100 * 5,
+                        paddingVertical: width / 100 * 5,
+                    }}
+                >
+                    <View>
+                        <TextInput style={style.input}
+                            multiline={true}
+                            placeholder={'Title'}
+                            value={title}
+                            placeholderTextColor={'#045c5a'}
+                            underlineColorAndroid='transparent'
+                            onChangeText={setTitle}
+                        />
+                    </View>
+                    <View style={style.body}>
+                        <TextInput style={style.input}
+                            multiline={true}
+                            placeholder={'News Content'}
+                            value={body}
+                            placeholderTextColor={'#045c5a'}
+                            underlineColorAndroid='transparent'
+                            onChangeText={setBody}
+                        />
+                    </View>
+                    <View>
+                        <TextInput style={style.input}
+                            placeholder={'Summary Text'}
+                            value={summary}
+                            multiline={true}
+                            placeholderTextColor={'#045c5a'}
+                            underlineColorAndroid='transparent'
+                            onChangeText={setSummary}
+                        />
+                    </View>
                 </View>
                 <MultipleSelectList
                     data={categoryData}
@@ -170,12 +180,14 @@ const style = StyleSheet.create({
         width: width - 25,
         height: 40,
         borderRadius: 25,
-        fontSize: 16,
+        fontSize: 13,
         paddingLeft: 25,
         borderBottomWidth: 1,
-        marginTop: width / 100 * 10,
-
+        marginTop: width / 100 * 5,
+        marginBottom: width / 100 * 5,
+        borderBottomColor: "#aaaaaa",
         alignSelf: "center",
+        color: "#444444"
 
 
     },
